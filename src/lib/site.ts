@@ -12,8 +12,8 @@ export const siteConfig = {
    */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   social: {
-    instagram: "https://instagram.com/wacabajo",
-    email: "halo@wacabajo.org",
+    instagram: "https://www.instagram.com/wacabajo",
+    email: "hello.wacabajo@gmail.com",
   },
 } as const;
 

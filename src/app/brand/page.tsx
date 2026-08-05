@@ -221,8 +221,8 @@ export default function BrandPage() {
             Perjalanan yang dilalui bersama membuat cerita semakin bermakna!
           </p>
           <p className="mt-8 max-w-2xl font-display text-lg leading-relaxed italic">
-            “Kamu calon konglomerat ya, kamu harus rajin belajar dan membaca,
-            jangan ditelan sendiri.”
+            “Melalui buku, cerita, dan kebersamaan, membangun ruang tempat
+            manusia belajar, saling memahami, dan berkembang bersama.”
           </p>
           <p className="mt-8 text-sm text-foreground-subtle">
             Semua headline memakai Sentence case, mengikuti aturan di deck.

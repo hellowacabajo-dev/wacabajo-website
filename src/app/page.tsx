@@ -182,9 +182,7 @@ export default function HomePage() {
           </div>
           <figure className="reveal border-l border-cream-50/20 pl-8">
             <blockquote className="font-display text-xl leading-relaxed text-cream-100 italic md:text-2xl">
-              “Kamu calon konglomerat ya, kamu harus rajin belajar dan membaca,
-              jangan ditelan sendiri. Berbagilah dengan teman-teman yang tak
-              mendapat pendidikan.”
+              “Melalui buku, cerita, dan kebersamaan, membangun ruang tempat manusia belajar, saling memahami, dan berkembang bersama.”
             </blockquote>
             <figcaption className="mt-6 text-sm text-cream-300">
               Kutipan pembuka pada Brand Guidelines Waca Bajo
