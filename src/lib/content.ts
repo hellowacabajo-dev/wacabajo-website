@@ -99,6 +99,31 @@ export const foundation = {
   ],
 } as const;
 
+/* ── Tempat ───────────────────────────────────────────────────────────── */
+
+/**
+ * Section peta — jembatan antara "Fondasi" dan "Program".
+ *
+ * Menjawab baris "Asal nama" di `foundation`: setelah pembaca tahu nama ini
+ * lahir dari tanahnya, di sini tanahnya ditunjukkan. Juga memberi jeda visual
+ * di antara dua grid kartu yang berurutan.
+ *
+ * Gambarnya ILUSTRASI, bukan peta faktual — garis pantainya tidak akurat.
+ * Karena itu framing-nya sengaja tidak pernah mengklaim ketepatan geografis
+ * (tidak ada penanda kampung, tidak ada label lokasi). Kalau nanti tim punya
+ * peta wilayah kerja yang benar, barulah `caption` boleh berubah.
+ */
+export const place = {
+  eyebrow: "Tempat kami berpijak",
+  title: "Gerakan ini berakar di satu tempat, bukan di mana-mana",
+  description:
+    "Labuan Bajo dan kampung-kampung di sekitarnya. Di sinilah program kami berjalan, dan dari sini pula cerita-cerita yang kami kumpulkan berasal.",
+  caption:
+    "Ilustrasi bentang Labuan Bajo dan gugus pulau di sekitarnya, digambar ulang dengan warna brand.",
+  imageAlt:
+    "Ilustrasi tiga dimensi daratan Labuan Bajo dan gugus pulau di sekitarnya, dengan bukit hijau zaitun di atas laut biru.",
+} as const;
+
 /* ── Program ──────────────────────────────────────────────────────────── */
 
 /**

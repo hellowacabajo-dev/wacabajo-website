@@ -1,3 +1,6 @@
+import Image from "next/image";
+
+import petaBajo from "@/assets/ilustrasi_peta_bajo.jpeg";
 import { doodleByName, HeroDoodles } from "@/components/Doodles";
 import { ProgramCard } from "@/components/ProgramCard";
 import { ButtonLink } from "@/components/ui/Button";
@@ -12,6 +15,7 @@ import {
   hero,
   heroFacts,
   joinSteps,
+  place,
   programs,
   valuePractice,
 } from "@/lib/content";
@@ -113,6 +117,32 @@ export default function HomePage() {
             );
           })}
         </div>
+      </Section>
+
+      {/* ── Tempat ────────────────────────────────────────────────────── */}
+      <Section>
+        <SectionHeading
+          eyebrow={place.eyebrow}
+          title={place.title}
+          description={place.description}
+        />
+        {/*
+          Gambarnya full-bleed sampai tepi, jadi sudut membulat dan bayangannya
+          dibuat di sini lewat token — bukan dibakar ke dalam file — supaya
+          tetap tajam di layar retina dan ikut sistem desain.
+        */}
+        <figure className="reveal mx-auto mt-14 max-w-xl">
+          <Image
+            src={petaBajo}
+            alt={place.imageAlt}
+            sizes="(min-width: 576px) 576px, 100vw"
+            className="h-auto w-full rounded-xl shadow-card"
+            placeholder="blur"
+          />
+          <figcaption className="mt-5 text-center text-sm text-foreground-subtle">
+            {place.caption}
+          </figcaption>
+        </figure>
       </Section>
 
       {/* ── Program ───────────────────────────────────────────────────── */}
