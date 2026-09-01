@@ -9,7 +9,7 @@ import type { BrandTone, DoodleName } from "@/lib/content";
  * putih berisi judul dan penjelasan.
  *
  * Kepala kartu hanya memakai tone yang teks cream-nya lolos AA (lihat tabel
- * pasangan warna di `docs/DESIGN-SYSTEM.md` §1), jadi `ChipOnDark` selalu
+ * pasangan warna di `docs/DESIGN.md` §1), jadi `ChipOnDark` selalu
  * terbaca di atasnya.
  */
 const headerTone: Record<Extract<BrandTone, "forest" | "persephone" | "maritime">, string> = {

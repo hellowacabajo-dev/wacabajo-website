@@ -4,7 +4,7 @@
 **Tanggal dokumen:** 5 Agustus 2026
 **Sifat dokumen:** Reverse-engineered. Ditulis setelah fase 1 dibangun, untuk
 mencatat apa yang sebenarnya jadi — bukan spesifikasi yang disusun di depan.
-**Rujukan teknis:** [`docs/DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md),
+**Rujukan teknis:** [`docs/DESIGN.md`](DESIGN.md),
 [`CLAUDE.md`](../CLAUDE.md), [`README.md`](../README.md)
 
 ---
@@ -17,9 +17,9 @@ gerakan ini dan membuka satu pintu masuk untuk calon relawan.
 
 Yang dibangun bukan sekadar landing page. Fondasinya adalah **design system
 yang diturunkan langsung dari Waca Bajo Brand Guidelines 2026**, hidup sebagai
-token CSS dan data TypeScript, dan dirender balik sebagai style guide di
-`/brand`. Konsekuensinya: siapa pun yang meneruskan proyek ini tidak perlu
-membuka PDF deck untuk tahu warna, tipografi, atau aturan menulis yang benar.
+token CSS dan terdokumentasi di `docs/DESIGN.md`. Konsekuensinya: siapa pun
+yang meneruskan proyek ini tidak perlu membuka PDF deck untuk tahu warna,
+tipografi, atau aturan menulis yang benar.
 
 **Satu kalimat:** situs perkenalan Waca Bajo yang memperlakukan brand
 guidelines sebagai kode, bukan sebagai lampiran.
@@ -50,8 +50,8 @@ Tiga masalah yang ditangani:
 | - | ------ | ------------------ |
 | 1 | Pengunjung baru paham gerakan ini dalam satu kali gulir | Beranda dengan alur kenapa → apa → siapa → bagaimana |
 | 2 | Calon relawan tahu langkah konkret pertamanya | Section "Cara bergabung" + CTA email/Instagram |
-| 3 | Brand guidelines jadi rujukan yang hidup | `/brand`, token di `globals.css`, data di `src/lib/brand.ts` |
-| 4 | Situs bisa diteruskan orang lain tanpa brief lisan | Copy terpisah sebagai data, komentar bahasa Indonesia, `DESIGN-SYSTEM.md` |
+| 3 | Brand guidelines jadi rujukan yang hidup | Token di `globals.css`, dokumentasi di `docs/DESIGN.md` |
+| 4 | Situs bisa diteruskan orang lain tanpa brief lisan | Copy terpisah sebagai data, komentar bahasa Indonesia, `docs/DESIGN.md` |
 | 5 | Bisa deploy hari ini, tanpa infrastruktur | Semua route statis, tanpa CMS/DB |
 
 ### Bukan tujuan fase ini
@@ -76,7 +76,7 @@ tidak, mulainya bagaimana." Situs menjawab keempatnya secara eksplisit.
 yang perlu menilai apakah gerakan ini serius dan jelas arahnya.
 
 **Internal — tim Waca Bajo dan siapa pun yang menggarap materi brand.**
-Pengguna sesungguhnya dari `/brand`.
+Pembaca sesungguhnya dari `docs/DESIGN.md`.
 
 ---
 
@@ -101,16 +101,12 @@ Seluruh copy hidup di [`src/lib/content.ts`](../src/lib/content.ts);
 [`src/app/page.tsx`](../src/app/page.tsx) hanya menyusun tata letak. Copy bisa
 disunting tanpa menyentuh markup.
 
-### 5.2 Halaman brand (`/brand`)
+### 5.2 Style guide
 
-Style guide hidup, dirender dari [`src/lib/brand.ts`](../src/lib/brand.ts) —
-bukan disalin dari deck. Empat section: `#warna` (enam keluarga warna dengan
-ramp 50–950, pasangan teks yang lolos AA, pasangan chip, tiga gradasi),
-`#tipografi`, `#komponen`, `#suara` (pilar tone of voice, aturan penulisan,
-kata-kata kepribadian brand).
-
-Karena token yang ditampilkan adalah token yang dipakai produksi, halaman ini
-tidak bisa melenceng dari situsnya sendiri.
+Situs publik hanya punya satu route: beranda. Style guide tidak tayang —
+palet, tipografi, aturan copy, dan standar UI/UX terdokumentasi di
+[`docs/DESIGN.md`](DESIGN.md), yang menjadi rujukan tunggal saat menambah
+halaman atau komponen baru.
 
 ### 5.3 Chrome & pelengkap
 
@@ -127,8 +123,6 @@ tidak bisa melenceng dari situsnya sendiri.
   `Section` (+ `Eyebrow`, `SectionHeading`), `ProgramCard`, `Logo`
 - **Doodle:** sembilan ilustrasi SVG inline (buku, pinisi, tunas, matahari,
   kacamata, ombak, balon bicara, pensil, kilau) — dipetakan lewat `doodleByName`
-- **Ilustrasi peta:** `src/assets/ilustrasi_peta_bajo.jpeg`, dioptimasi oleh
-  `next/image` dengan blur placeholder
 
 `Section` dan `Chip` sengaja membatasi pilihan tone ke pasangan yang sudah
 lolos kontras. Warna yang tidak aman tidak bisa dipilih tanpa keluar dari API
@@ -139,7 +133,7 @@ komponen.
 ## 6. Design system
 
 Diturunkan dari Brand Guidelines 2026 dan didokumentasikan penuh di
-[`docs/DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md).
+[`docs/DESIGN.md`](DESIGN.md).
 
 **Warna.** Enam keluarga: Darkest Forest, Miles of Persephone, Maritime
 Outpost, Sunset Gold, Vintage Cream, Brandy. Step yang tercetak di deck dipakai
@@ -168,8 +162,8 @@ dihormati di seluruh situs.
 
 ## 7. Aturan copy
 
-Diturunkan dari deck, hidup sebagai data di `copyRules` dan `toneOfVoice`,
-terbaca publik di `/brand#suara`.
+Diturunkan dari deck, terdokumentasi di [`docs/DESIGN.md`](DESIGN.md) §3
+lengkap dengan pola per elemen antarmuka.
 
 1. Headline dan sub-headline memakai Sentence case
 2. Satu bahasa: Indonesia, termasuk judul halaman dan meta description
@@ -194,7 +188,7 @@ bukan pilihan.
 | Next.js 16 App Router, semua route statis | Deploy ke Vercel tanpa server; cepat di koneksi Labuan Bajo |
 | Tanpa CMS & tanpa database | Isinya belum banyak dan belum stabil; menambahkannya sekarang berarti memelihara sesuatu yang belum dipakai |
 | Copy sebagai data (`content.ts`), bukan di JSX | Menyunting teks tidak perlu menyentuh markup — dan jadi jalur migrasi termudah ke CMS nanti |
-| Brand guidelines sebagai data (`brand.ts`) | `/brand` dirender dari sumber yang sama dengan produksi, jadi tidak bisa basi |
+| Style guide sebagai dokumen, bukan route | Situs publik cukup satu halaman; rujukan tim tidak perlu ikut tayang dan ikut di-index |
 | Token warna di `globals.css`, bukan `tailwind.config` | Tailwind v4; token tetap terbaca sebagai CSS var di luar Tailwind |
 | Doodle SVG inline, bukan file gambar | Ikut `currentColor`, tidak ada request tambahan, tidak ada layout shift |
 | Reveal pakai scroll-driven animation CSS | Nol JavaScript, degradasi aman — konten tidak pernah tersembunyi |

@@ -7,8 +7,8 @@ type Tone = "cream" | "surface" | "forest" | "persephone" | "maritime";
  * Pembungkus section beserta ritme vertikalnya.
  *
  * `tone` membatasi pilihan latar ke pasangan warna yang sudah lolos WCAG AA
- * (lihat colorPairings di src/lib/brand.ts) — jadi tidak perlu mengingat
- * kombinasi mana yang aman setiap kali menambah section baru.
+ * (tabelnya di `docs/DESIGN.md` §1) — jadi tidak perlu mengingat kombinasi
+ * mana yang aman setiap kali menambah section baru.
  */
 const toneClass: Record<Tone, string> = {
   cream: "bg-background text-foreground",
@@ -34,14 +34,18 @@ export function Section({
   return (
     <section
       id={id}
-      className={cn("py-24 md:py-32", toneClass[tone], className)}
+      className={cn(
+        "py-20 md:py-28 lg:py-32",
+        toneClass[tone],
+        className,
+      )}
     >
       <Container className={containerClassName}>{children}</Container>
     </section>
   );
 }
 
-/** Label kecil di atas judul section — deck menyebutnya eyebrow. */
+/** Label kecil di atas judul section (eyebrow). */
 export function Eyebrow({
   className,
   children,
@@ -52,7 +56,7 @@ export function Eyebrow({
   return (
     <p
       className={cn(
-        "mb-4 text-xs font-medium tracking-[0.22em] uppercase",
+        "mb-4 font-sans text-xs font-medium tracking-[0.22em] uppercase",
         className,
       )}
     >
@@ -95,7 +99,9 @@ export function SectionHeading({
           {eyebrow}
         </Eyebrow>
       ) : null}
-      <h2 className="text-[2rem] leading-[1.12] md:text-5xl">{title}</h2>
+      <h2 className="text-[1.75rem] leading-[1.15] sm:text-[2rem] sm:leading-[1.12] md:text-4xl lg:text-5xl">
+        {title}
+      </h2>
       {description ? (
         <p
           className={cn(

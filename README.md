@@ -41,7 +41,6 @@ src/
   app/
     layout.tsx        chrome situs + pemuatan font + metadata
     page.tsx          beranda
-    brand/page.tsx    style guide hidup (/brand)
     globals.css       SELURUH design token ada di sini
     not-found.tsx     halaman 404
     robots.ts         /robots.txt
@@ -53,22 +52,21 @@ src/
     Logo.tsx          wordmark "waca bajo"
     ui/               Button, Card, Container, Section
   lib/
-    brand.ts          isi brand guidelines sebagai data
+    content.ts        seluruh copy beranda sebagai data
     site.ts           nama situs, nav, URL, kontak
     utils.ts          helper cn()
 ```
 
 ## Design system
 
-Ringkasannya ada di [`docs/DESIGN-SYSTEM.md`](docs/DESIGN-SYSTEM.md), dan
-versi visualnya bisa dibuka di **`/brand`** — halaman itu merender token yang
-sama dengan yang dipakai komponen produksi, jadi tidak pernah basi.
+Rujukan lengkapnya ada di [`docs/DESIGN.md`](docs/DESIGN.md) — palet,
+tipografi, aturan copy, dan standar UI/UX desktop + mobile yang wajib dipenuhi
+setiap halaman baru.
 
 Dua tempat yang perlu diingat:
 
 - `src/app/globals.css` — semua warna, radius, shadow, dan font token.
-- `src/lib/brand.ts` — teks brand (values, tone of voice, personality) dan
-  data palet yang dirender di `/brand`.
+- `docs/DESIGN.md` §9 — checklist yang harus lolos sebelum merge.
 
 ## Environment
 
@@ -77,13 +75,14 @@ variabel wajib; `NEXT_PUBLIC_SITE_URL` baru perlu diisi saat deploy agar
 canonical URL, Open Graph, `robots.txt`, dan `sitemap.xml` menunjuk ke domain
 yang benar.
 
-## Yang masih kosong
+## Yang masih menunggu aset
 
-- **Logomark.** Bagian "Identity System" tidak ikut ter-export di PDF versi
-  compressed, jadi yang ada di web baru wordmark berbasis teks. Begitu file
+- **Logomark.** Yang ada di web baru wordmark berbasis teks. Begitu file
   logomark tersedia, taruh di `public/logomark.svg` lalu render di
   `src/components/Logo.tsx`.
-- **Daftar program** di beranda masih placeholder (`src/app/page.tsx`).
-- **Gambar/foto.** Belum ada aset, jadi hero dan kartu program memakai bidang
-  warna. `next/image` sudah dikonfigurasi untuk WebP begitu foto masuk.
+- **Foto kegiatan.** Belum ada aset, jadi hero dan kartu program memakai
+  bidang warna. `next/image` sudah dikonfigurasi untuk WebP begitu foto masuk.
 - **OG image.** Metadata sudah siap, tinggal menambahkan `opengraph-image`.
+- **Cerita relawan/warga.** Bentuk bukti yang paling on-brand. Begitu ada satu
+  kutipan asli (dengan izinnya), tambahkan sebagai section tersendiri dan
+  `heroFacts` boleh dipensiunkan.

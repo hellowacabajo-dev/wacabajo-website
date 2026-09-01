@@ -3,17 +3,24 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { Logo } from "@/components/Logo";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { mainNav } from "@/lib/site";
+import type { Locale } from "@/lib/i18n/config";
+import { getUi } from "@/lib/i18n/ui";
+import { getMainNav } from "@/lib/site";
 
-export function SiteHeader() {
+export function SiteHeader({ locale }: { locale: Locale }) {
   const [open, setOpen] = useState(false);
+  const mainNav = getMainNav(locale);
+  const ui = getUi(locale);
 
   /**
-   * Escape menutup menu mobile — jalur keluar wajib untuk panel yang menutupi
-   * konten, dan gratis bagi pengguna keyboard.
+   * Saat menu mobile terbuka: Escape menutupnya (jalur keluar wajib untuk
+   * panel yang menutupi konten), dan halaman di belakangnya dikunci supaya
+   * jari yang menggeser menu tidak ikut men-scroll konten di bawahnya.
    */
   useEffect(() => {
     if (!open) return;
@@ -22,16 +29,22 @@ export function SiteHeader() {
       if (event.key === "Escape") setOpen(false);
     }
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [open]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-sm">
       <Container className="flex h-18 items-center justify-between gap-6">
-        <Logo />
+        <Logo locale={locale} />
 
-        <nav aria-label="Navigasi utama" className="hidden md:block">
+        <nav aria-label={ui.nav.ariaLabel} className="hidden md:block">
           <ul className="flex items-center gap-8">
             {mainNav.map((item) => (
               <li key={item.href}>
@@ -46,48 +59,59 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="hidden md:block">
-          <ButtonLink href="/#gabung" size="sm">
-            Jadi relawan
+        <div className="hidden items-center gap-2 md:flex">
+          <LocaleSwitcher locale={locale} />
+          <ThemeToggle locale={locale} />
+          <ButtonLink href="#gabung" size="sm">
+            {ui.nav.volunteerCta}
           </ButtonLink>
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="menu-mobile"
-          className="-mr-2 inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md text-foreground transition-colors duration-200 hover:bg-surface md:hidden"
-        >
-          <span className="sr-only">{open ? "Tutup menu" : "Buka menu"}</span>
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            aria-hidden="true"
+        <div className="flex items-center gap-1 md:hidden">
+          <LocaleSwitcher locale={locale} />
+          <ThemeToggle locale={locale} />
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="menu-mobile"
+            className="-mr-2 inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md text-foreground transition-colors duration-200 hover:bg-surface"
           >
-            {open ? (
-              <>
-                <path d="M5 5l12 12" />
-                <path d="M17 5L5 17" />
-              </>
-            ) : (
-              <>
-                <path d="M3 6h16" />
-                <path d="M3 11h16" />
-                <path d="M3 16h16" />
-              </>
-            )}
-          </svg>
-        </button>
+            <span className="sr-only">
+              {open ? ui.nav.closeMenu : ui.nav.openMenu}
+            </span>
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 22 22"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              {open ? (
+                <>
+                  <path d="M5 5l12 12" />
+                  <path d="M17 5L5 17" />
+                </>
+              ) : (
+                <>
+                  <path d="M3 6h16" />
+                  <path d="M3 11h16" />
+                  <path d="M3 16h16" />
+                </>
+              )}
+            </svg>
+          </button>
+        </div>
       </Container>
 
       {open ? (
-        <div id="menu-mobile" className="border-t border-border md:hidden">
+        <div
+          id="menu-mobile"
+          className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto border-t border-border bg-background md:hidden"
+        >
           <Container className="flex flex-col gap-1 py-4">
             {mainNav.map((item) => (
               <Link
@@ -100,11 +124,11 @@ export function SiteHeader() {
               </Link>
             ))}
             <ButtonLink
-              href="/#gabung"
-              className="mt-3 self-start"
+              href="#gabung"
+              className="mt-3"
               onClick={() => setOpen(false)}
             >
-              Jadi relawan
+              {ui.nav.volunteerCta}
             </ButtonLink>
           </Container>
         </div>

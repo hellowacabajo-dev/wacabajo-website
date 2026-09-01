@@ -1,6 +1,5 @@
-import Image from "next/image";
+import { notFound } from "next/navigation";
 
-import petaBajo from "@/assets/ilustrasi_peta_bajo.jpeg";
 import { doodleByName, HeroDoodles } from "@/components/Doodles";
 import { ProgramCard } from "@/components/ProgramCard";
 import { ButtonLink } from "@/components/ui/Button";
@@ -8,38 +7,50 @@ import { Card, CardBadge, CardBody, CardTitle } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow, Section, SectionHeading } from "@/components/ui/Section";
-import { brandEssence, brandValues, toneOfVoice } from "@/lib/brand";
-import {
-  finalCta,
-  foundation,
-  hero,
-  heroFacts,
-  joinSteps,
-  place,
-  programs,
-  valuePractice,
-} from "@/lib/content";
+import { getContent } from "@/lib/content";
+import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { siteConfig } from "@/lib/site";
 
 /**
  * Beranda.
  *
  * Urutan section mengikuti alur "kenapa → apa → siapa → bagaimana":
- * hero, fondasi, program, esensi brand, nilai, cara bergabung, ajakan penutup.
- * Pengunjung baru dapat gambaran utuh tanpa perlu tahu istilah brand apa pun.
+ * hero, fondasi, program, keyakinan, nilai, cara bergabung, ajakan penutup.
+ * Pengunjung baru dapat gambaran utuh tanpa perlu tahu istilah apa pun.
  *
- * Seluruh copy hidup di `src/lib/content.ts`; halaman ini hanya menyusun
- * tata letaknya.
+ * Seluruh copy hidup di `src/lib/content.ts`, per locale; halaman ini hanya
+ * menyusun tata letaknya.
  */
 
-export default function HomePage() {
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+type PageParams = { params: Promise<{ locale: string }> };
+
+export default async function HomePage({ params }: PageParams) {
+  const { locale: localeParam } = await params;
+  if (!isLocale(localeParam)) notFound();
+  const locale: Locale = localeParam;
+
+  const {
+    hero,
+    heroFacts,
+    foundation,
+    programs,
+    belief,
+    values,
+    joinSteps,
+    finalCta,
+  } = getContent(locale);
+
   return (
     <>
       {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section className="gradient-cream-veil relative overflow-hidden">
         <HeroDoodles />
 
-        <Container className="relative py-24 md:py-32">
+        <Container className="relative py-16 sm:py-24 md:py-32">
           <div className="mx-auto max-w-3xl animate-fade-up text-center">
             <Chip tone="brandy" className="gap-2 px-4 py-1.5">
               <span
@@ -49,38 +60,45 @@ export default function HomePage() {
               {hero.eyebrow}
             </Chip>
 
-            <h1 className="mt-6 text-[2.75rem] leading-[1.03] sm:text-6xl md:text-7xl">
+            <h1 className="mt-6 text-[2.25rem] leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
               {hero.title}
             </h1>
 
-            <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-foreground-muted md:text-xl">
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-foreground-muted sm:text-lg md:mt-7 md:text-xl">
               {hero.description}
             </p>
 
-            <div className="mt-10 flex flex-wrap justify-center gap-4">
-              <ButtonLink href={hero.primaryCta.href} size="lg">
+            {/* Tombol melebar penuh di ponsel supaya target sentuhnya besar
+                dan tidak pernah pecah jadi dua baris. */}
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 md:mt-10">
+              <ButtonLink
+                href={hero.primaryCta.href}
+                size="lg"
+                className="w-full sm:w-auto"
+              >
                 {hero.primaryCta.label}
               </ButtonLink>
               <ButtonLink
                 href={hero.secondaryCta.href}
                 size="lg"
                 variant="outline"
+                className="w-full sm:w-auto"
               >
                 {hero.secondaryCta.label}
               </ButtonLink>
             </div>
           </div>
 
-          {/* Strip fakta — bukan angka dampak, lihat catatan di content.ts. */}
-          <dl className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3">
+          {/* Strip fakta — fakta struktural, bukan angka dampak. */}
+          <dl className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3 md:mt-16">
             {heroFacts.map((fact) => (
               <div
                 key={fact.label}
-                className="bg-background px-6 py-6 text-center"
+                className="bg-background px-6 py-5 text-center sm:py-6"
               >
                 <dt className="sr-only">{fact.label}</dt>
                 <dd>
-                  <span className="block text-2xl leading-tight font-bold tracking-tight md:text-3xl">
+                  <span className="block text-xl leading-tight font-bold tracking-tight sm:text-2xl md:text-[1.75rem]">
                     {fact.value}
                   </span>
                   <span className="mt-1 block text-sm text-foreground-subtle">
@@ -103,7 +121,7 @@ export default function HomePage() {
           title={foundation.title}
           description={foundation.description}
         />
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 md:mt-16 md:grid-cols-3">
           {foundation.items.map((item) => {
             const Doodle = doodleByName[item.doodle];
             return (
@@ -119,32 +137,6 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ── Tempat ────────────────────────────────────────────────────── */}
-      <Section>
-        <SectionHeading
-          eyebrow={place.eyebrow}
-          title={place.title}
-          description={place.description}
-        />
-        {/*
-          Gambarnya full-bleed sampai tepi, jadi sudut membulat dan bayangannya
-          dibuat di sini lewat token — bukan dibakar ke dalam file — supaya
-          tetap tajam di layar retina dan ikut sistem desain.
-        */}
-        <figure className="reveal mx-auto mt-14 max-w-xl">
-          <Image
-            src={petaBajo}
-            alt={place.imageAlt}
-            sizes="(min-width: 576px) 576px, 100vw"
-            className="h-auto w-full rounded-xl shadow-card"
-            placeholder="blur"
-          />
-          <figcaption className="mt-5 text-center text-sm text-foreground-subtle">
-            {place.caption}
-          </figcaption>
-        </figure>
-      </Section>
-
       {/* ── Program ───────────────────────────────────────────────────── */}
       <Section id="program" tone="surface">
         <SectionHeading
@@ -152,7 +144,7 @@ export default function HomePage() {
           title={programs.title}
           description={programs.description}
         />
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
+        <div className="mt-12 grid gap-6 md:mt-16 md:grid-cols-3">
           {programs.items.map((program) => (
             <ProgramCard
               key={program.title}
@@ -166,67 +158,49 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* ── Esensi brand ──────────────────────────────────────────────── */}
+      {/* ── Yang kami percayai ────────────────────────────────────────── */}
       <Section tone="forest">
-        <div className="grid gap-14 md:grid-cols-[1.1fr_1fr] md:items-center">
+        <div className="grid gap-10 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-14">
           <div className="reveal">
-            <Eyebrow className="text-gold-300">Esensi brand</Eyebrow>
+            <Eyebrow className="text-gold-300">{belief.eyebrow}</Eyebrow>
             {/* Satu-satunya tempat Sorts Mill Goudy tampil sebesar ini. */}
-            <p className="font-display text-5xl leading-[1.05] font-normal tracking-normal md:text-6xl">
-              {brandEssence.split(" ").map((word) => (
+            <p className="font-serif text-[2.75rem] leading-[1.05] font-normal tracking-normal sm:text-5xl md:text-6xl">
+              {belief.tagline.split(" ").map((word) => (
                 <span key={word} className="block">
                   {word}
                 </span>
               ))}
             </p>
           </div>
-          <figure className="reveal border-l border-cream-50/20 pl-8">
-            <blockquote className="font-display text-xl leading-relaxed text-cream-100 italic md:text-2xl">
-              “Melalui buku, cerita, dan kebersamaan, membangun ruang tempat manusia belajar, saling memahami, dan berkembang bersama.”
-            </blockquote>
-            <figcaption className="mt-6 text-sm text-cream-300">
-              Kutipan pembuka pada Brand Guidelines Waca Bajo
-            </figcaption>
-          </figure>
+          {/* Garis pemisah pindah ke atas di ponsel — di lebar sempit dua
+              kolom menumpuk, jadi garis kiri kehilangan maknanya. */}
+          <p className="reveal border-t border-cream-50/20 pt-8 font-serif text-lg leading-relaxed text-cream-100 italic sm:text-xl md:border-t-0 md:border-l md:pt-0 md:pl-8 md:text-2xl">
+            {belief.statement}
+          </p>
         </div>
       </Section>
 
-      {/* ── Nilai & tone of voice ─────────────────────────────────────── */}
+      {/* ── Nilai ─────────────────────────────────────────────────────── */}
       <Section id="nilai">
         <SectionHeading
-          eyebrow="Nilai"
-          title="Empat nilai yang menjaga cara kami bekerja"
-          description="Bukan slogan — ini yang kami pakai untuk memutuskan hal-hal kecil sehari-hari."
+          eyebrow={values.eyebrow}
+          title={values.title}
+          description={values.description}
         />
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {brandValues.map((value) => {
-            const practice = valuePractice[value.name];
-            return (
-              <Card key={value.name} className="reveal flex flex-col">
-                <Chip tone={practice.tone} className="self-start">
-                  {value.name}
-                </Chip>
-                <CardTitle className="mt-4 text-lg md:text-xl">
-                  {value.description}
-                </CardTitle>
-                <CardBody className="flex-1 text-sm">{practice.body}</CardBody>
-              </Card>
-            );
-          })}
-        </div>
-
-        <div className="reveal mt-16 border-t border-border pt-10">
-          <Eyebrow className="text-foreground-subtle">Cara kami bicara</Eyebrow>
-          <ul className="flex flex-wrap gap-3">
-            {toneOfVoice.map((tone) => (
-              <li
-                key={tone.name}
-                className="rounded-pill border border-border-strong px-5 py-2 text-sm text-foreground-muted"
-              >
-                {tone.name}
-              </li>
-            ))}
-          </ul>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 md:mt-16 lg:grid-cols-4">
+          {values.items.map((value) => (
+            <Card key={value.name} className="reveal flex flex-col">
+              <Chip tone={value.tone} className="self-start">
+                {value.name}
+              </Chip>
+              <CardTitle className="mt-4 text-lg md:text-xl">
+                {value.meaning}
+              </CardTitle>
+              <CardBody className="flex-1 text-sm md:text-sm">
+                {value.practice}
+              </CardBody>
+            </Card>
+          ))}
         </div>
       </Section>
 
@@ -237,7 +211,7 @@ export default function HomePage() {
           title={joinSteps.title}
           description={joinSteps.description}
         />
-        <ol className="mt-16 grid gap-6 md:grid-cols-3">
+        <ol className="mt-12 grid gap-6 md:mt-16 md:grid-cols-3">
           {joinSteps.items.map((step, index) => (
             <li
               key={step.title}
@@ -259,26 +233,30 @@ export default function HomePage() {
       </Section>
 
       {/* ── Ajakan penutup ────────────────────────────────────────────── */}
-      <section id="gabung" className="bg-background pb-24 md:pb-32">
+      <section id="gabung" className="bg-background pb-20 md:pb-28 lg:pb-32">
         <Container>
-          <div className="reveal relative overflow-hidden rounded-xl bg-gold-300 px-8 py-16 text-center md:px-16 md:py-20">
+          <div className="reveal relative overflow-hidden rounded-xl bg-gold-300 px-6 py-14 text-center sm:px-8 md:px-16 md:py-20">
             {/* Doodle matahari sebagai aksen sudut — dekoratif. */}
             {(() => {
               const Sun = doodleByName.sun;
               return (
-                <Sun className="pointer-events-none absolute -top-8 -right-8 w-40 text-gold-700/20" />
+                <Sun className="pointer-events-none absolute -top-8 -right-8 w-32 text-gold-700/20 md:w-40" />
               );
             })()}
 
-            <h2 className="relative mx-auto max-w-2xl text-3xl leading-[1.1] text-persephone-950 md:text-5xl">
+            <h2 className="relative mx-auto max-w-2xl text-[1.75rem] leading-[1.1] text-persephone-950 sm:text-3xl md:text-5xl">
               {finalCta.title}
             </h2>
-            <p className="relative mx-auto mt-6 max-w-xl text-base leading-relaxed text-persephone-900">
+            <p className="relative mx-auto mt-5 max-w-xl text-base leading-relaxed text-persephone-900 md:mt-6">
               {finalCta.description}
             </p>
-            <div className="relative mt-10 flex flex-wrap justify-center gap-4">
-              <ButtonLink href={`mailto:${siteConfig.social.email}`} size="lg">
-                Kirim email ke kami
+            <div className="relative mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 md:mt-10">
+              <ButtonLink
+                href={`mailto:${siteConfig.social.email}`}
+                size="lg"
+                className="w-full sm:w-auto"
+              >
+                {finalCta.primaryLabel}
               </ButtonLink>
               <ButtonLink
                 href={siteConfig.social.instagram}
@@ -286,9 +264,9 @@ export default function HomePage() {
                 variant="outline"
                 target="_blank"
                 rel="noreferrer"
-                className="border-persephone-950/25 text-persephone-950 hover:border-persephone-950/40 hover:bg-gold-200"
+                className="w-full border-persephone-950/25 text-persephone-950 hover:border-persephone-950/40 hover:bg-gold-200 sm:w-auto"
               >
-                Ikuti di Instagram
+                {finalCta.secondaryLabel}
               </ButtonLink>
             </div>
           </div>

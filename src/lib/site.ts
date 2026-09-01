@@ -1,11 +1,10 @@
 /** Konfigurasi situs — dipakai metadata, header, footer, sitemap, robots. */
 
+import type { Locale } from "@/lib/i18n/config";
+
 export const siteConfig = {
   name: "Waca Bajo",
   tagline: "Growing Through Stories",
-  description:
-    "Gerakan literasi dari Labuan Bajo. Melalui buku, cerita, dan kebersamaan, membangun ruang tempat manusia belajar, saling memahami, dan berkembang bersama.",
-  locale: "id-ID",
   /**
    * Dipakai untuk metadataBase, canonical, dan sitemap. Set
    * NEXT_PUBLIC_SITE_URL di environment produksi (lihat .env.example).
@@ -17,15 +16,41 @@ export const siteConfig = {
   },
 } as const;
 
+const description: Record<Locale, string> = {
+  id: "Gerakan literasi dari Labuan Bajo. Melalui buku, cerita, dan kebersamaan, membangun ruang tempat manusia belajar, saling memahami, dan berkembang bersama.",
+  en: "A literacy movement from Labuan Bajo. Through books, stories, and togetherness, building spaces where people learn, understand each other, and grow together.",
+};
+
+export function getSiteDescription(locale: Locale): string {
+  return description[locale];
+}
+
+/** Dipakai untuk `openGraph.locale` dan atribut `lang` HTML. */
+const ogLocale: Record<Locale, string> = { id: "id_ID", en: "en_US" };
+
+export function getOgLocale(locale: Locale): string {
+  return ogLocale[locale];
+}
+
 export type NavItem = {
   label: string;
   href: string;
 };
 
-/** Urutannya mengikuti urutan section di beranda. */
-export const mainNav: NavItem[] = [
-  { label: "Tentang", href: "/#tentang" },
-  { label: "Program", href: "/#program" },
-  { label: "Nilai", href: "/#nilai" },
-  { label: "Brand", href: "/brand" },
-];
+const navLabels: Record<Locale, [string, string, string]> = {
+  id: ["Tentang", "Program", "Nilai"],
+  en: ["About", "Programs", "Values"],
+};
+
+/**
+ * Urutannya mengikuti urutan section di beranda. Hanya fragment (`#tentang`)
+ * tanpa prefix locale supaya tetap di path yang sama saat diklik.
+ */
+export function getMainNav(locale: Locale): NavItem[] {
+  const [about, programs, values] = navLabels[locale];
+  return [
+    { label: about, href: "#tentang" },
+    { label: programs, href: "#program" },
+    { label: values, href: "#nilai" },
+  ];
+}

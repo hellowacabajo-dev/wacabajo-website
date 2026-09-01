@@ -7,7 +7,7 @@ import type { BrandTone } from "@/lib/content";
  *
  * Setiap tone memakai tint terang dari satu keluarga warna dengan teks dari
  * step gelap keluarga yang sama — semuanya lolos WCAG AAA (rasio tercatat di
- * `globals.css` dan di `docs/DESIGN-SYSTEM.md` §1). Karena itu chip aman
+ * `globals.css` dan di `docs/DESIGN.md` §1). Karena itu chip aman
  * dipakai pada ukuran teks kecil sekalipun.
  */
 const toneClass: Record<BrandTone, string> = {
@@ -30,7 +30,7 @@ export function Chip({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-pill px-3 py-1 text-xs font-medium",
+        "inline-flex items-center rounded-pill px-3 py-1 font-sans text-xs font-medium",
         toneClass[tone],
         className,
       )}
@@ -55,7 +55,7 @@ export function ChipOnDark({
     <span
       className={cn(
         "inline-flex items-center rounded-pill bg-cream-50 px-3 py-1",
-        "text-xs font-medium tracking-wide text-persephone-950 uppercase",
+        "font-sans text-xs font-medium tracking-wide text-persephone-950 uppercase",
         className,
       )}
     >

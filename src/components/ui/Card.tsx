@@ -4,7 +4,7 @@ import type { BrandTone } from "@/lib/content";
 
 /**
  * Kartu dasar. Sudut 28px (--radius-xl) dan garis Brandy 200 mengikuti kesan
- * "lived-in" Vintage Cream di deck — hindari shadow keras di atas kanvas cream.
+ * "lived-in" Vintage Cream — hindari shadow keras di atas kanvas cream.
  *
  * Hover mengangkat kartu 2px lewat transform saja, jadi tidak ada reflow dan
  * tidak ada layout shift.

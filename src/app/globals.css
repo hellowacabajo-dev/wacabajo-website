@@ -1,18 +1,27 @@
 @import "tailwindcss";
 
 /**
+ * Varian `dark:` mengikuti atribut `data-theme="dark"` di <html>, bukan
+ * `prefers-color-scheme` bawaan Tailwind — supaya konsisten dengan toggle
+ * manual di `ThemeToggle`. Kebanyakan styling dark mode di sini cukup lewat
+ * token semantik (lihat blok `:root[data-theme="dark"]` di bawah); varian ini
+ * hanya untuk kasus yang benar-benar butuh nilai berbeda per tema.
+ */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/**
  * Waca Bajo — Design Tokens
- * Sumber: "Waca Bajo Brand Guidelines 2026" (Color Study & Typography).
+ * Rujukan lengkapnya ada di `docs/DESIGN.md`.
  *
- * Nilai yang tercantum di deck dipakai apa adanya sebagai anchor:
+ * Nilai resmi brand dipakai apa adanya sebagai anchor:
  *   Darkest Forest      500/800/950
  *   Miles of Persephone 600/800/950
  *   Maritime Outpost    300/500/700
  *   Sunset Gold         200/300/400
  *   Vintage Cream       50
- *   Brandy (base color) 50–950 (skala lengkap tercetak di deck)
+ *   Brandy (base color) 50–950 (skala lengkap)
  * Langkah lain pada ramp diinterpolasi di ruang OKLab supaya jarak terang
- * antar-step terasa rata — deck menyebut bagian ini "Tint & Shade Range".
+ * antar-step terasa rata.
  */
 :root {
   /* ── Darkest Forest — deep green, nuansa alami & resilience ─────────── */
@@ -113,7 +122,7 @@
   --ink-dark: var(--forest-950); /* section gelap; teks cream 13.0:1 */
   --ink-dark-foreground: var(--cream-50);
 
-  /* Gradients — bagian "Gradients" di deck, diturunkan dari palet inti */
+  /* Gradients — diturunkan dari palet inti */
   --gradient-golden-hour: linear-gradient(135deg, var(--gold-300) 0%, var(--persephone-700) 100%);
   --gradient-forest-sea: linear-gradient(135deg, var(--forest-800) 0%, var(--maritime-700) 100%);
   --gradient-cream-veil: linear-gradient(180deg, var(--cream-50) 0%, var(--cream-200) 100%);
@@ -134,6 +143,19 @@
   --chip-brandy-bg: var(--brandy-100);
   --chip-brandy-fg: var(--brandy-900); /* 8.0:1 */
 
+  /**
+   * Tekstur kertas — dua lapis noise SVG (tanpa file gambar, tanpa request):
+   * grain halus untuk serat, mottle kasar untuk ketidakrataan warna kertas
+   * cetak. Dipasang sebagai overlay di `body::before` (lihat @layer base) dan
+   * bisa dipakai per-section lewat utility `paper-texture`.
+   */
+  --paper-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)'/%3E%3C/svg%3E");
+  --paper-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='620'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='620' height='620' filter='url(%23m)'/%3E%3C/svg%3E");
+  --paper-grain-opacity: 0.09;
+  --paper-mottle-opacity: 0.06;
+  /* multiply = noise gelap menekan warna kertas, seperti tinta menyerap. */
+  --paper-blend: multiply;
+
   --radius-sm: 6px;
   --radius-md: 12px;
   --radius-lg: 20px;
@@ -144,6 +166,64 @@
   --shadow-soft: 0 2px 10px rgba(71, 20, 23, 0.06);
   --shadow-card: 0 12px 32px -16px rgba(71, 20, 23, 0.22);
   --shadow-lifted: 0 20px 44px -20px rgba(71, 20, 23, 0.3);
+}
+
+/**
+ * Dark mode — dipicu lewat `data-theme="dark"` di elemen <html> (diset oleh
+ * `ThemeToggle`, lihat `src/components/ThemeToggle.tsx`), bukan lewat
+ * `prefers-color-scheme` saja, supaya pengguna bisa memilih sendiri.
+ *
+ * Karena seluruh komponen sudah memakai token semantik (`--background`,
+ * `--foreground`, dst.) dan bukan warna langsung, cukup mendefinisikan ulang
+ * token-token itu di sini — tidak ada satu komponen pun yang perlu disentuh.
+ * Rasio kontras dihitung terhadap `--background` (Darkest Forest 950) dan
+ * `--surface-raised` (Darkest Forest 800), memenuhi WCAG AA.
+ */
+:root[data-theme="dark"] {
+  --background: var(--forest-950);
+  --surface: var(--forest-900);
+  --surface-raised: var(--forest-800);
+  --foreground: var(--cream-50); /* 13.0:1 di atas background */
+  --foreground-muted: var(--cream-200); /* 11.4:1 */
+  --foreground-subtle: var(--brandy-300); /* 8.1:1 (5.2:1 di surface-raised) */
+  --border: var(--forest-700);
+  --border-strong: var(--forest-600);
+
+  --primary: var(--persephone-600); /* teks cream di atasnya 4.7:1 */
+  --primary-hover: var(--persephone-500);
+  --primary-foreground: var(--cream-50);
+
+  /* Sunset Gold tetap sama — kontrasnya independen dari background halaman. */
+  --accent: var(--gold-400);
+  --accent-hover: var(--gold-500);
+  --accent-foreground: var(--persephone-950);
+
+  /* Section "gelap" butuh warna beda dari background halaman yang sudah
+     gelap, supaya tetap terasa sebagai blok terpisah. */
+  --ink-dark: var(--maritime-950);
+  --ink-dark-foreground: var(--cream-50);
+
+  --shadow-soft: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 12px 32px -16px rgba(0, 0, 0, 0.55);
+  --shadow-lifted: 0 20px 44px -20px rgba(0, 0, 0, 0.6);
+
+  /**
+   * Di latar gelap, multiply nyaris tak terlihat — noise-nya harus menerangi,
+   * bukan menggelapkan. Soft-light menaikkan serat tanpa mengangkat black
+   * point sehingga kontras teks tetap seperti yang dihitung di atas.
+   */
+  --paper-blend: soft-light;
+  --paper-grain-opacity: 0.14;
+  --paper-mottle-opacity: 0.1;
+
+  /* Dipakai sebagai latar hero — teks di atasnya memakai
+     token `--foreground` yang theme-aware, jadi gradiennya harus ikut
+     berganti supaya tidak jadi teks cream di atas veil cream (tak terbaca). */
+  --gradient-cream-veil: linear-gradient(
+    180deg,
+    var(--forest-950) 0%,
+    var(--forest-900) 100%
+  );
 }
 
 @theme inline {
@@ -242,9 +322,20 @@
   --color-chip-brandy-bg: var(--chip-brandy-bg);
   --color-chip-brandy-fg: var(--chip-brandy-fg);
 
-  /* Display = Sorts Mill Goudy (headline deck), body/UI = Bricolage Grotesque */
-  --font-display: var(--font-goudy), Georgia, "Times New Roman", serif;
+  /**
+   * Pembagian peran typeface:
+   *   `font-sans`  → Bricolage Grotesque. Heading, sub-heading, dan seluruh
+   *                  elemen UI (tombol, nav, label, chip).
+   *   `font-serif` → Sorts Mill Goudy. Paragraf, kutipan, wordmark. Punya
+   *                  italic asli — itu alasan ia memegang teks panjang.
+   *
+   * Sorts Mill Goudy TIDAK punya bold. Jangan pasang `font-bold` di atas
+   * `font-serif`; browser akan mem-fake-bold-kan dan hasilnya kotor. Kalau
+   * butuh penekanan di dalam paragraf, pakai <strong> — base layer di bawah
+   * sudah memindahkannya ke Bricolage 600.
+   */
   --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-goudy), Georgia, "Times New Roman", serif;
 
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -262,37 +353,155 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Header sticky-nya 72px. Tanpa ini, judul section yang dituju tautan
+       jangkar (#program, #nilai) berhenti tepat di bawah header dan
+       tertutup separuh. Angkanya = tinggi header + napas satu langkah. */
+    scroll-padding-top: 6rem;
+    /* iOS memperbesar teks saat perangkat diputar ke landscape; matikan
+       supaya skala tipografi yang sudah dihitung tetap berlaku. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Hilangkan jeda 300ms pada tap di ponsel untuk semua kontrol. */
+  a,
+  button,
+  summary,
+  [role="button"] {
+    touch-action: manipulation;
   }
 
   body {
     background-color: var(--background);
     color: var(--foreground);
-    font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+    /* Default = Bricolage: semua elemen UI ikut ini. Teks panjang di-opt-in
+       ke Sorts Mill Goudy lewat selector paragraf di bawah. */
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
 
   /**
-   * Headline memakai Bricolage Grotesque — deck menyebutnya primary typeface
-   * dan memang dinyatakan untuk Heading. Bobot tebal + tracking rapat membuat
-   * judul besar terasa berani tanpa keluar dari brand.
+   * Overlay tekstur kertas untuk seluruh halaman.
    *
-   * Sorts Mill Goudy tetap hidup lewat utility `font-display`: wordmark,
-   * kutipan, dan aksen italik. Jadi kedua typeface punya peran yang jelas.
+   * Diletakkan di atas konten (bukan di belakang) supaya section gelap,
+   * kartu, dan gambar ikut kena serat yang sama — kalau ditaruh di belakang,
+   * hanya background halaman yang bertekstur dan hasilnya terasa tempelan.
+   * `pointer-events: none` menjaganya tidak pernah menghalangi klik, dan
+   * `position: fixed` membuatnya tidak ikut men-scroll seperti kertas asli
+   * yang dilihat lewat jendela.
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    background-image: var(--paper-grain);
+    background-size: 140px 140px;
+    mix-blend-mode: var(--paper-blend);
+    opacity: var(--paper-grain-opacity);
+  }
+
+  /* Dua lapis dengan opacity berbeda dalam satu pseudo-element tidak bisa,
+     jadi lapis mottle-nya dipisah ke ::after. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    pointer-events: none;
+    background-image: var(--paper-mottle);
+    background-size: 620px 620px;
+    mix-blend-mode: var(--paper-blend);
+    opacity: var(--paper-mottle-opacity);
+  }
+
+  @media print {
+    body::before,
+    body::after {
+      display: none;
+    }
+  }
+
+  /**
+   * Heading & sub-heading memakai Bricolage Grotesque, primary typeface
+   * brand. Bobot tebal + tracking rapat membuat judul besar terasa berani
+   * tanpa keluar dari brand.
    *
-   * Deck memakai Sentence case untuk semua headline — jangan uppercase-kan.
+   * Semua headline memakai Sentence case — jangan uppercase-kan.
    */
   h1,
   h2,
-  h3 {
-    font-family: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  h3,
+  h4 {
+    font-family: var(--font-sans);
     font-weight: 700;
     letter-spacing: -0.03em;
     text-wrap: balance;
   }
 
-  /* Paragraf pengantar ikut di-balance supaya baris terakhir tidak menggantung. */
+  /**
+   * Teks panjang memakai Sorts Mill Goudy: italic-nya asli (Bricolage tidak
+   * punya), dan serif humanis membuat paragraf panjang lebih nyaman dibaca.
+   *
+   * `font-size-adjust` menyamakan tinggi-x dengan sans-nya — tanpa ini Goudy
+   * terlihat jauh lebih kecil pada ukuran font yang sama, dan setiap utility
+   * `text-*` harus dikompensasi manual di tiap komponen.
+   */
+  p,
+  blockquote,
+  dd,
+  figcaption {
+    font-family: var(--font-serif);
+    font-size-adjust: ex-height 0.45;
+  }
+
+  /* `li` sengaja tidak masuk daftar di atas: di proyek ini <li> lebih sering
+     jadi wadah kartu (berisi h3, chip, tombol) daripada teks. Kalau sebuah
+     list memang berisi prosa, tulis teksnya di dalam <p>. */
+
+  /* Paragraf ikut di-balance supaya baris terakhir tidak menggantung. */
   p {
     text-wrap: pretty;
+  }
+
+  /**
+   * Goudy tidak punya bold. Penekanan di dalam teks panjang dipinjamkan ke
+   * Bricolage 600 supaya tidak ada fake bold — bentuk hurufnya berubah, dan
+   * itu justru membuat penekanannya makin jelas.
+   */
+  p strong,
+  dd strong,
+  blockquote strong,
+  p b {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size-adjust: none;
+  }
+
+  /**
+   * `font-size-adjust` menempel pada elemen, bukan pada font — jadi utility
+   * `font-sans`/`font-serif` harus membawa nilainya sendiri. Tanpa ini,
+   * `<p class="font-sans">` tetap memakai adjust milik Goudy dan Bricolage-nya
+   * malah menyusut.
+   */
+  .font-sans {
+    font-size-adjust: none;
+  }
+
+  .font-serif {
+    font-size-adjust: ex-height 0.45;
+  }
+
+  /* Elemen UI selalu Bricolage, di mana pun ia bersarang. */
+  button,
+  input,
+  select,
+  textarea,
+  label,
+  nav p {
+    font-family: var(--font-sans);
+    font-size-adjust: none;
   }
 
   ::selection {
@@ -305,9 +514,24 @@
     outline-offset: 2px;
   }
 
+  /* Persephone-800 nyaris tak terlihat di atas background gelap — pindah ke
+     Sunset Gold yang tetap terang di kedua tema. */
+  :root[data-theme="dark"] :focus-visible {
+    outline-color: var(--gold-300);
+  }
+
+  /* Media yang tidak pernah boleh melebihi kolomnya — sumber horizontal
+     scroll paling sering di ponsel. */
+  img,
+  svg,
+  video {
+    max-width: 100%;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
+      scroll-padding-top: 6rem;
     }
 
     *,
@@ -364,4 +588,33 @@
 
 @utility gradient-cream-veil {
   background-image: var(--gradient-cream-veil);
+}
+
+/**
+ * Tekstur kertas untuk satu elemen (kartu, panel, blok kutipan). Halaman
+ * secara keseluruhan sudah bertekstur lewat `body::before`; utility ini untuk
+ * saat sebuah blok perlu terasa seperti kertas terpisah yang ditempel di atas
+ * halaman — jadi seratnya sedikit lebih kuat.
+ */
+@utility paper-texture {
+  position: relative;
+  isolation: isolate;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background-image: var(--paper-grain);
+    background-size: 140px 140px;
+    mix-blend-mode: var(--paper-blend);
+    opacity: calc(var(--paper-grain-opacity) * 1.6);
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
 }
