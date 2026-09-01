@@ -130,6 +130,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
+      data-scroll-behavior="smooth"
       className={`${bricolage.variable} ${goudy.variable} h-full antialiased`}
       // `themeInitScript` mengubah `data-theme` sebelum React hydrate —
       // mismatch ini disengaja, bukan bug.
