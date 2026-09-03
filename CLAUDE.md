@@ -97,6 +97,9 @@ Lalu jalankan checklist merge di `docs/DESIGN.md` §9.
 - Pengiriman jawaban ke Supabase → `src/lib/survey/actions.ts`, `src/lib/supabase.ts`
 - Skema tabel + Row Level Security → `supabase/schema.sql`
 - Panduan menyambungkan Supabase → `docs/SUPABASE.md`
+- Peta deployment, environment produksi, dan yang masih menggantung →
+  `docs/DEPLOY.md`. **Baca ini sebelum `git push`:** push ke `main` langsung
+  tayang di www.wacabajo.org, tanpa tahap review.
 - Redirect `/` → `/id` → `src/proxy.ts`
 - Konfigurasi situs & navigasi → `src/lib/site.ts`
 - Rujukan desain, brand, copy, dan standar UI/UX → `docs/DESIGN.md`

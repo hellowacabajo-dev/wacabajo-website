@@ -118,11 +118,6 @@ export const surveyIntro = {
   },
   start: { id: "Mulai isi survei", en: "Start the survey" },
   duration: { id: "Sekitar 5 menit", en: "About 5 minutes" },
-  questionCount: { id: "17 pertanyaan", en: "17 questions" },
-  optionalNote: {
-    id: "Dua pertanyaan terakhir boleh dilewati",
-    en: "The last two are optional",
-  },
 };
 
 /** Layar penutup setelah jawaban terkirim. */

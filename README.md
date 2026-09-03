@@ -85,6 +85,9 @@ variabel wajib.
 Semuanya `NEXT_PUBLIC_*`, jadi nilainya ikut ter-inline saat build — ganti
 nilai berarti build ulang.
 
+Untuk nilai produksi, siapa yang memegang project Vercel-nya, dan cara deploy:
+[`docs/DEPLOY.md`](docs/DEPLOY.md).
+
 ## Yang masih menunggu aset
 
 - **Logomark.** Yang ada di web baru wordmark berbasis teks. Begitu file
