@@ -201,7 +201,7 @@ itu iOS ikut memperbesar halaman sendiri saat form difokuskan.
 5. **Boleh menyebut yang belum berhasil.** Nilai "berani mencoba" dan "berani
    memahami" baru terbaca kalau ada kalimat yang berani mengakui.
 6. **Headline panjang dipecah jadi dua bagian yang seimbang.** Pola ini milik
-   brand sendiri: "Membaca kata, lalu membaca dunia."
+   brand sendiri: "Membaca kata, membaca dunia."
 
 ### Pola per elemen
 
@@ -209,11 +209,11 @@ Turunan dari prinsip UX writing — dipakai untuk setiap teks antarmuka baru:
 
 | Elemen             | Pola                                                    | Contoh di situs                                        |
 | ------------------ | ------------------------------------------------------- | ------------------------------------------------------ |
-| Tombol / CTA       | Kata kerja + objek. Label = apa yang terjadi setelah diklik | "Jadi relawan", "Lihat program", "Kirim email"      |
-| Eyebrow            | Frasa pendek, uppercase, ≤4 kata                        | "Program", "Cara bergabung"                            |
-| Judul section      | Satu kalimat penuh, Sentence case, tanpa titik          | "Tiga jalur, satu tujuan yang sama"                    |
-| Deskripsi section  | 1–2 kalimat, ≤25 kata                                   | "Setiap program berjalan bersama warga setempat."      |
-| Body kartu         | Kalimat 1 menjelaskan, kalimat 2 menjawab keraguan      | Lihat `programs.items[].body`                          |
+| Tombol / CTA       | Kata kerja + objek. Label = apa yang terjadi setelah diklik | "Jadi relawan", "Isi survei", "Kirim email"          |
+| Eyebrow            | Frasa pendek, uppercase, ≤4 kata                        | "Nilai", "Ikut terlibat"                               |
+| Judul section      | Satu kalimat penuh, Sentence case, tanpa titik          | "Terbuka untuk siapa saja, apa pun latar belakangmu"    |
+| Deskripsi section  | 1–2 kalimat, ≤25 kata                                   | "Tidak ada syarat dan tidak perlu pengalaman."          |
+| Body kartu         | Kalimat 1 menjelaskan, kalimat 2 menjawab keraguan      | Lihat `foundation.items[].body`                        |
 | Halaman kosong/404 | Apa yang terjadi + jalan keluarnya                      | Lihat `src/app/not-found.tsx`                          |
 
 Panjang maksimum yang aman di 375px: label tombol **≤18 karakter**, tag/chip

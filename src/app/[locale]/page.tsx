@@ -14,7 +14,7 @@ import { siteConfig } from "@/lib/site";
  * Beranda.
  *
  * Urutan section mengikuti alur "kenapa → apa → siapa → bagaimana":
- * hero, fondasi, keyakinan, nilai, cara bergabung, ajakan penutup.
+ * hero, fondasi, keyakinan, nilai, ikut terlibat, ajakan penutup.
  * Pengunjung baru dapat gambaran utuh tanpa perlu tahu istilah apa pun.
  *
  * Seluruh copy hidup di `src/lib/content.ts`, per locale; halaman ini hanya
@@ -32,15 +32,12 @@ export default async function HomePage({ params }: PageParams) {
   if (!isLocale(localeParam)) notFound();
   const locale: Locale = localeParam;
 
-  const {
-    hero,
-    heroFacts,
-    foundation,
-    belief,
-    values,
-    joinSteps,
-    finalCta,
-  } = getContent(locale);
+  const { hero, heroFacts, foundation, belief, values, join, finalCta } =
+    getContent(locale);
+
+  // Formulirnya belum tentu sudah ada. Selama URL-nya kosong, tombolnya tidak
+  // dirender sama sekali — lebih baik daripada mengirim orang ke tautan mati.
+  const { survey: surveyUrl, join: joinFormUrl } = siteConfig.forms;
 
   return (
     <>
@@ -66,23 +63,41 @@ export default async function HomePage({ params }: PageParams) {
               {hero.description}
             </p>
 
+            {/* Kutipan pembuka — satu-satunya kalimat bersuara "kami percaya"
+                di hero, jadi dibedakan lewat serif italic, bukan ukuran. */}
+            <p className="mx-auto mt-6 max-w-xl border-t border-border pt-6 font-serif text-lg leading-relaxed text-foreground italic md:text-xl">
+              {hero.quote}
+            </p>
+
             {/* Tombol melebar penuh di ponsel supaya target sentuhnya besar
                 dan tidak pernah pecah jadi dua baris. */}
             <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 md:mt-10">
               <ButtonLink
-                href={hero.primaryCta.href}
+                href={hero.joinCta.href}
                 size="lg"
                 className="w-full sm:w-auto"
               >
-                {hero.primaryCta.label}
+                {hero.joinCta.label}
               </ButtonLink>
+              {surveyUrl ? (
+                <ButtonLink
+                  href={surveyUrl}
+                  size="lg"
+                  variant="outline"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:w-auto"
+                >
+                  {hero.surveyCta.label}
+                </ButtonLink>
+              ) : null}
               <ButtonLink
-                href={hero.secondaryCta.href}
+                href={hero.aboutCta.href}
                 size="lg"
-                variant="outline"
+                variant="ghost"
                 className="w-full sm:w-auto"
               >
-                {hero.secondaryCta.label}
+                {hero.aboutCta.label}
               </ButtonLink>
             </div>
           </div>
@@ -181,15 +196,15 @@ export default async function HomePage({ params }: PageParams) {
         </div>
       </Section>
 
-      {/* ── Cara bergabung ────────────────────────────────────────────── */}
-      <Section tone="surface">
+      {/* ── Ikut terlibat ─────────────────────────────────────────────── */}
+      <Section id="gabung" tone="surface">
         <SectionHeading
-          eyebrow={joinSteps.eyebrow}
-          title={joinSteps.title}
-          description={joinSteps.description}
+          eyebrow={join.eyebrow}
+          title={join.title}
+          description={join.description}
         />
         <ol className="mt-12 grid gap-6 md:mt-16 md:grid-cols-3">
-          {joinSteps.items.map((step, index) => (
+          {join.items.map((step, index) => (
             <li
               key={step.title}
               className="reveal rounded-xl border border-border bg-surface-raised p-7 shadow-soft"
@@ -207,10 +222,32 @@ export default async function HomePage({ params }: PageParams) {
             </li>
           ))}
         </ol>
+
+        {/* Gambaran kegiatan yang baru disiapkan. Ditaruh di section ini,
+            bukan jadi section sendiri, supaya terbaca sebagai jawaban atas
+            "nanti aku ngapain?" — bukan sebagai jadwal yang sudah jalan. */}
+        <div className="reveal mt-12 rounded-xl border border-border bg-background p-7 md:mt-16 md:p-10">
+          <h3 className="text-xl leading-snug md:text-2xl">
+            {join.plans.title}
+          </h3>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+            {join.plans.items.map((item) => (
+              <li
+                key={item}
+                className="border-t border-border pt-4 text-sm leading-relaxed text-foreground-muted md:text-base"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-6 text-sm leading-relaxed text-foreground-subtle">
+            {join.plans.note}
+          </p>
+        </div>
       </Section>
 
       {/* ── Ajakan penutup ────────────────────────────────────────────── */}
-      <section id="gabung" className="bg-background pb-20 md:pb-28 lg:pb-32">
+      <section className="bg-background pb-20 md:pb-28 lg:pb-32">
         <Container>
           <div className="reveal relative overflow-hidden rounded-xl bg-gold-300 px-6 py-14 text-center sm:px-8 md:px-16 md:py-20">
             {/* Doodle matahari sebagai aksen sudut — dekoratif. */}
@@ -228,10 +265,26 @@ export default async function HomePage({ params }: PageParams) {
               {finalCta.description}
             </p>
             <div className="relative mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4 md:mt-10">
+              {joinFormUrl ? (
+                <ButtonLink
+                  href={joinFormUrl}
+                  size="lg"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:w-auto"
+                >
+                  {finalCta.formLabel}
+                </ButtonLink>
+              ) : null}
               <ButtonLink
                 href={`mailto:${siteConfig.social.email}`}
                 size="lg"
-                className="w-full sm:w-auto"
+                variant={joinFormUrl ? "outline" : "primary"}
+                className={
+                  joinFormUrl
+                    ? "w-full border-persephone-950/25 text-persephone-950 hover:border-persephone-950/40 hover:bg-gold-200 sm:w-auto"
+                    : "w-full sm:w-auto"
+                }
               >
                 {finalCta.primaryLabel}
               </ButtonLink>

@@ -251,11 +251,25 @@ dikerjakan:
 | Hero tanpa kata "lalu" | Sudah jadi `"Membaca kata, membaca dunia."` di [content.ts](../src/lib/content.ts) | **selesai** (2026-09-03) |
 | Section program dihilangkan | Dikonfirmasi stakeholder: **dihilangkan dulu**. Section, nav item, `programs` content (id/en), komponen `ProgramCard`, dan `ChipOnDark` yang cuma dipakainya sudah dihapus. Hero secondary CTA yang tadinya "Lihat program" dialihkan jadi "Kenali Waca Bajo" → `#tentang`, dan hero fact "Tiga program" dihapus (heroFacts tinggal 2 item, grid disesuaikan ke `sm:grid-cols-2`) | **selesai** (2026-09-03) — `npm run build`, `lint`, `typecheck` semua lolos |
 | Aksen dark mode bukan merah | Token `--accent` sudah pakai Sunset Gold (`--gold-400`/`--gold-500`), bukan merah — lihat [globals.css:118](../src/app/globals.css:118) | kemungkinan sudah diperbaiki di iterasi desain setelah rekaman ini dibuat, tinggal konfirmasi visual ke stakeholder |
+| Hero: kutipan italic + tiga CTA | Kutipan *"Kami percaya membaca adalah awal dari rasa ingin tahu..."* ditambahkan sebagai `hero.quote`; CTA jadi tiga: "Jadi bagian dari Waca Bajo" → `#gabung`, "Isi survei" → tautan Google Form, "Kenali Waca Bajo" → `#tentang` | **selesai** (2026-09-03) — tombol survei baru tayang setelah URL formulirnya diisi (lihat baris di bawah) |
+| Hero: body copy pengantar | `hero.description` ditulis ulang jadi pengantar Waca Bajo yang menyebut posisi sebenarnya: kegiatannya masih disusun bersama warga, siapa pun boleh ikut sejak awal | **selesai** (2026-09-03) — versi lama ("kami membuka ruang baca, memandu kelas cerita...") dihapus karena mengklaim kegiatan yang belum berjalan, masalah yang sama dengan section program |
+| Section rekrutmen terbuka & rendah friction | Section "Cara bergabung" jadi "Ikut terlibat" (`join` di content.ts, anchor `#gabung` pindah ke sini). Tiga langkah tidak meminta apa pun selain cerita: ceritakan siapa kamu → sebut yang ingin kamu lakukan → kami hubungi kalau ada yang cocok. Kalimat "belum tahu juga tidak apa-apa" sengaja ada untuk yang merasa tidak punya peran | **selesai** (2026-09-03) |
+| Gambaran kegiatan di section rekrutmen | Panel "Kegiatan yang sedang kami siapkan" di dalam section yang sama: book sharing, mendongeng dari desa ke desa, baca buku bareng — dengan catatan tetap "belum ada yang berjalan" | **selesai** (2026-09-03) — ditaruh satu section, bukan section sendiri; kalau stakeholder maunya terpisah tinggal dipindah |
+| Terjemahan Inggris terasa hasil AI | Seluruh `en` di content.ts ditulis ulang sebagai teks Inggris yang berdiri sendiri (bukan terjemahan kalimat per kalimat), termasuk judul hero yang ikut kehilangan "then": `"Read the words, read the world."` | **selesai** (2026-09-03) — perlu satu kali baca ulang oleh yang lebih nyaman berbahasa Inggris sebelum tayang |
+| Tautan Google Form survei & rekrutmen | Belum ada URL-nya. Disiapkan lewat environment: `NEXT_PUBLIC_SURVEY_URL` dan `NEXT_PUBLIC_JOIN_FORM_URL` (lihat `.env.example` dan `siteConfig.forms`) | **menunggu stakeholder** — selama kosong, tombol "Isi survei" dan "Isi formulir" tidak dirender sama sekali supaya tidak ada tautan mati |
 
 ## Belum jelas / perlu klarifikasi ke stakeholder
 
-- Gambaran "kegiatan ke depan" (book sharing, dongeng, dll) ditaruh di section
-  rekrutmen yang sama, atau jadi section terpisah?
+- Isi survei sudah lengkap di §1, tapi belum ada Google Form-nya. Begitu
+  tautannya jadi, isi `NEXT_PUBLIC_SURVEY_URL` — tombol "Isi survei" di hero
+  langsung tayang tanpa perlu ganti kode. Sama untuk formulir rekrutmen
+  (`NEXT_PUBLIC_JOIN_FORM_URL`).
+- Gambaran "kegiatan ke depan" (book sharing, dongeng, dll) untuk sekarang
+  ditaruh di section rekrutmen yang sama. Perlu konfirmasi apakah stakeholder
+  maunya begitu atau jadi section terpisah.
+- Visi & misi belum dimasukkan ke section "Mengapa kami hadir" — teksnya belum
+  ada di catatan ini; yang paling dekat baru pernyataan di section "Yang kami
+  percayai". Perlu naskah visi-misi finalnya dari dokumen copywriting.
 - Struktur survei final: per-section (multi-step) atau satu halaman panjang —
   belum diputuskan, stakeholder menyerahkan ke tim.
 - Warna pengganti aksen merah di dark mode belum ditentukan pasti — perlu

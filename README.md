@@ -71,9 +71,17 @@ Dua tempat yang perlu diingat:
 ## Environment
 
 Salin `.env.example` ke `.env.local`. Untuk pengembangan lokal tidak ada
-variabel wajib; `NEXT_PUBLIC_SITE_URL` baru perlu diisi saat deploy agar
-canonical URL, Open Graph, `robots.txt`, dan `sitemap.xml` menunjuk ke domain
-yang benar.
+variabel wajib.
+
+- `NEXT_PUBLIC_SITE_URL` — baru perlu diisi saat deploy agar canonical URL,
+  Open Graph, `robots.txt`, dan `sitemap.xml` menunjuk ke domain yang benar.
+- `NEXT_PUBLIC_SURVEY_URL` — tautan Google Form survei. Selama kosong, tombol
+  "Isi survei" di hero tidak dirender.
+- `NEXT_PUBLIC_JOIN_FORM_URL` — tautan Google Form rekrutmen. Selama kosong,
+  ajakan penutup hanya menampilkan email dan Instagram.
+
+Ketiganya `NEXT_PUBLIC_*`, jadi nilainya ikut ter-inline saat build — ganti
+nilai berarti build ulang.
 
 ## Yang masih menunggu aset
 

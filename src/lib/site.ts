@@ -14,6 +14,16 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/wacabajo",
     email: "hello.wacabajo@gmail.com",
   },
+  /**
+   * Tautan formulir eksternal (Google Form). Diisi lewat environment supaya
+   * tautannya bisa diganti tanpa menyunting kode, dan supaya CTA-nya tidak
+   * pernah tayang sebagai tautan mati selama formulirnya belum dibuat —
+   * komponen menyembunyikan tombolnya kalau nilainya kosong.
+   */
+  forms: {
+    survey: process.env.NEXT_PUBLIC_SURVEY_URL ?? "",
+    join: process.env.NEXT_PUBLIC_JOIN_FORM_URL ?? "",
+  },
 } as const;
 
 const description: Record<Locale, string> = {

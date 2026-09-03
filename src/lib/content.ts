@@ -5,6 +5,10 @@
  * Aturan menulisnya ada di `docs/DESIGN.md` §3 — ringkasnya: Sentence case
  * untuk headline, sebut yang konkret, dan jangan menaruh angka dampak yang
  * datanya belum ada. Berlaku untuk kedua bahasa.
+ *
+ * Versi Inggris ditulis ulang sebagai teks Inggris yang berdiri sendiri, bukan
+ * terjemahan kalimat per kalimat dari versi Indonesia — permintaan stakeholder
+ * supaya nadanya terdengar manusiawi, bukan hasil translate.
  */
 
 import type { Locale } from "@/lib/i18n/config";
@@ -31,8 +35,12 @@ interface HeroContent {
   eyebrow: string;
   title: string;
   description: string;
-  primaryCta: { label: string; href: string };
-  secondaryCta: { label: string; href: string };
+  /** Kutipan pembuka, tampil italic di bawah deskripsi. */
+  quote: string;
+  joinCta: { label: string; href: string };
+  /** Tautannya dari `siteConfig.forms.survey` — tidak tampil kalau kosong. */
+  surveyCta: { label: string };
+  aboutCta: { label: string; href: string };
 }
 
 interface HeroFact {
@@ -80,16 +88,24 @@ interface JoinStep {
   body: string;
 }
 
-interface JoinStepsContent {
+interface JoinContent {
   eyebrow: string;
   title: string;
   description: string;
   items: JoinStep[];
+  /**
+   * Gambaran kegiatan yang baru disiapkan. `note` wajib ikut supaya tidak
+   * terbaca seperti jadwal yang sudah berjalan — alasan yang sama dengan
+   * dihapusnya section program.
+   */
+  plans: { title: string; items: string[]; note: string };
 }
 
 interface FinalCtaContent {
   title: string;
   description: string;
+  /** Tautannya dari `siteConfig.forms.join` — tidak tampil kalau kosong. */
+  formLabel: string;
   primaryLabel: string;
   secondaryLabel: string;
 }
@@ -100,7 +116,7 @@ export interface HomeContent {
   foundation: FoundationContent;
   belief: BeliefContent;
   values: ValuesContent;
-  joinSteps: JoinStepsContent;
+  join: JoinContent;
   finalCta: FinalCtaContent;
 }
 
@@ -110,10 +126,16 @@ const id: HomeContent = {
   hero: {
     eyebrow: "Gerakan literasi dari Labuan Bajo",
     title: "Membaca kata, membaca dunia.",
+    // Menyebut posisi sebenarnya: gerakan ini baru menyusun kegiatannya. Klaim
+    // "sudah membuka ruang baca" akan mengulang masalah yang bikin section
+    // program dihapus.
     description:
-      "Kami membuka ruang baca bersama warga, memandu kelas cerita untuk anak dan remaja, dan menjangkau kampung yang belum punya akses bacaan.",
-    primaryCta: { label: "Jadi relawan", href: "#gabung" },
-    secondaryCta: { label: "Kenali Waca Bajo", href: "#tentang" },
+      "Waca Bajo tumbuh di Labuan Bajo, dari orang-orang yang ingin membaca bersama. Kegiatannya sedang kami susun bersama warga, dan siapa pun boleh ikut sejak awal.",
+    quote:
+      "Kami percaya membaca adalah awal dari rasa ingin tahu, pemahaman, dan keberanian untuk melihat dunia secara lebih luas.",
+    joinCta: { label: "Jadi bagian dari Waca Bajo", href: "#gabung" },
+    surveyCta: { label: "Isi survei" },
+    aboutCta: { label: "Kenali Waca Bajo", href: "#tentang" },
   },
 
   // Fakta yang bisa diverifikasi dari halaman ini sendiri — bukan angka
@@ -167,7 +189,7 @@ const id: HomeContent = {
         tone: "forest",
         name: "Bersama",
         meaning: "Semua orang punya tempat yang sama.",
-        practice: "Program disusun bersama warga, bukan dibawa jadi dari luar.",
+        practice: "Kegiatan disusun bersama warga, bukan dibawa jadi dari luar.",
       },
       {
         tone: "maritime",
@@ -192,32 +214,44 @@ const id: HomeContent = {
     ],
   },
 
-  joinSteps: {
-    eyebrow: "Cara bergabung",
-    title: "Mulai dari satu langkah kecil",
+  // Tiga langkah ini sengaja tidak meminta apa pun selain cerita — stakeholder
+  // khawatir orang mundur kalau merasa harus punya "peran" dulu.
+  join: {
+    eyebrow: "Ikut terlibat",
+    title: "Terbuka untuk siapa saja, apa pun latar belakangmu",
     description:
-      "Tidak perlu pengalaman mengajar. Yang dibutuhkan hanya waktu dan kesediaan mendengar.",
+      "Tidak ada syarat dan tidak perlu pengalaman. Cukup ceritakan siapa kamu dan apa yang ingin kamu lakukan bersama kami.",
     items: [
       {
-        title: "Kirim kabar",
-        body: "Ceritakan siapa kamu dan waktu luangmu lewat email atau pesan Instagram. Satu paragraf sudah cukup.",
+        title: "Ceritakan siapa kamu",
+        body: "Nama, kesibukan sehari-hari, dan hal yang kamu senangi. Beberapa kalimat sudah cukup.",
       },
       {
-        title: "Ikut satu sesi",
-        body: "Datang ke satu kegiatan sebagai pengamat dulu. Tidak ada komitmen apa pun setelahnya.",
+        title: "Sebut yang ingin kamu lakukan",
+        body: "Membaca bareng anak-anak, memotret, menata buku, atau menemani saja. Belum tahu juga tidak apa-apa.",
       },
       {
-        title: "Pilih peranmu",
-        body: "Memandu kelas, merapikan koleksi, mengantar buku, atau mendokumentasikan — semuanya dibutuhkan.",
+        title: "Kami hubungi kalau ada yang cocok",
+        body: "Ceritamu kami simpan. Saat ada kegiatan yang pas dengan waktumu, kami kabari.",
       },
     ],
+    plans: {
+      title: "Kegiatan yang sedang kami siapkan",
+      items: [
+        "Book sharing — bertukar buku dan bacaan",
+        "Mendongeng dari desa ke desa",
+        "Baca buku bareng di ruang terbuka",
+      ],
+      note: "Belum ada yang berjalan. Bentuk dan jadwalnya kami susun bersama orang-orang yang ikut.",
+    },
   },
 
-  // Tautannya diambil dari `siteConfig.social`, jadi tidak diduplikasi di sini.
+  // Tautannya diambil dari `siteConfig`, jadi tidak diduplikasi di sini.
   finalCta: {
     title: "Cerita berikutnya butuh satu orang lagi",
     description:
-      "Terbuka untuk relawan, penulis, guru, dan siapa pun yang ingin menumbuhkan budaya membaca di Labuan Bajo.",
+      "Terbuka untuk pelajar, guru, perantau, dan siapa pun yang senang membaca — juga yang belum merasa punya peran apa-apa.",
+    formLabel: "Isi formulir",
     primaryLabel: "Kirim email",
     secondaryLabel: "Sapa kami di Instagram",
   },
@@ -228,11 +262,14 @@ const id: HomeContent = {
 const en: HomeContent = {
   hero: {
     eyebrow: "A literacy movement from Labuan Bajo",
-    title: "Read the words, then read the world.",
+    title: "Read the words, read the world.",
     description:
-      "We open reading spaces with residents, run storytelling classes for children and teens, and reach villages that don't yet have access to books.",
-    primaryCta: { label: "Become a volunteer", href: "#gabung" },
-    secondaryCta: { label: "Get to know Waca Bajo", href: "#tentang" },
+      "Waca Bajo grew in Labuan Bajo, out of people who wanted to read together. We are still shaping what we do, alongside the people who live here — and anyone can join from the start.",
+    quote:
+      "We believe reading is where curiosity begins, and with it the understanding and the nerve to look at the world more widely.",
+    joinCta: { label: "Be part of Waca Bajo", href: "#gabung" },
+    surveyCta: { label: "Take the survey" },
+    aboutCta: { label: "Get to know us", href: "#tentang" },
   },
 
   heroFacts: [
@@ -241,28 +278,28 @@ const en: HomeContent = {
   ],
 
   foundation: {
-    eyebrow: "Where we start from",
+    eyebrow: "Where we come from",
     title: "A reading culture grows where people, books, and stories meet",
     description:
-      "Three things that explain why this movement exists, and where it's headed.",
+      "Three things that explain why this movement exists, and where it is heading.",
     items: [
       {
         tone: "persephone",
         doodle: "book",
         title: "Why we exist",
-        body: "Books that only sit on a shelf don't make people read. What makes people read is usually another person inviting them to.",
+        body: "Books sitting on a shelf do not make anyone read. What usually does is another person asking you to read with them.",
       },
       {
         tone: "maritime",
         doodle: "pinisi",
         title: "Where the name comes from",
-        body: "“Waca” means “to read.” The name was born from the language and the land where this movement grew — Labuan Bajo.",
+        body: "“Waca” means “to read.” The name comes from the language and the ground this movement grew in: Labuan Bajo.",
       },
       {
         tone: "forest",
         doodle: "sprout",
-        title: "How we make sense of it",
-        body: "Reading is a way to know, understand, listen, and share stories. That's where people grow together.",
+        title: "What reading means to us",
+        body: "Reading is how we get to know, understand, listen, and pass a story on. That is where growing together starts.",
       },
     ],
   },
@@ -271,69 +308,78 @@ const en: HomeContent = {
     eyebrow: "What we believe",
     tagline: "Growing Through Stories",
     statement:
-      "Through books, stories, and togetherness, we build spaces where people learn, understand each other, and grow together.",
+      "Through books, stories, and time spent together, we are building a place where people learn, understand one another, and grow.",
   },
 
   values: {
     eyebrow: "Values",
-    title: "Four values that guide how we work",
+    title: "Four values that shape how we work",
     description:
-      "Not a slogan — this is what we use to decide the small things, every day.",
+      "Not a slogan — these are what we fall back on for the small decisions, every day.",
     items: [
       {
         tone: "forest",
         name: "Together",
-        meaning: "Everyone has an equal place.",
+        meaning: "Everyone has an equal place here.",
         practice:
-          "Programs are shaped together with residents, not brought in ready-made from outside.",
+          "Activities are shaped with the people who live here, not handed over ready-made.",
       },
       {
         tone: "maritime",
         name: "Open",
-        meaning: "Everyone has an equal chance.",
-        practice: "No requirements on age, background, or reading ability.",
+        meaning: "Everyone gets the same chance.",
+        practice: "No conditions on age, background, or how well you read.",
       },
       {
         tone: "persephone",
         name: "Willing to try",
-        meaning:
-          "We test new ways of doing things instead of arguing about them.",
-        practice: "When a format doesn't work, we say so and change it.",
+        meaning: "We try new ways instead of arguing about them.",
+        practice: "When something does not work, we say so and change it.",
       },
       {
         tone: "gold",
         name: "Willing to understand",
-        meaning: "Listen first, then move forward.",
+        meaning: "Listen first, then carry on.",
         practice: "Every activity ends by asking what changed.",
       },
     ],
   },
 
-  joinSteps: {
-    eyebrow: "How to join",
-    title: "Start with one small step",
+  join: {
+    eyebrow: "Get involved",
+    title: "Open to anyone, whatever you bring with you",
     description:
-      "No teaching experience needed. All it takes is time and a willingness to listen.",
+      "No requirements, no experience needed. Just tell us who you are and what you would like to do with us.",
     items: [
       {
-        title: "Send us a message",
-        body: "Tell us who you are and when you're free, by email or an Instagram message. One paragraph is enough.",
+        title: "Tell us who you are",
+        body: "Your name, what your days look like, and what you enjoy. A few sentences is plenty.",
       },
       {
-        title: "Join one session",
-        body: "Come to one activity as an observer first. No commitment required afterward.",
+        title: "Say what you would like to do",
+        body: "Read with kids, take photos, sort books, or simply keep us company. Not knowing yet is fine too.",
       },
       {
-        title: "Pick your role",
-        body: "Leading a class, organizing the collection, delivering books, or documenting — all of it is needed.",
+        title: "We get in touch when something fits",
+        body: "We keep what you send us, and reach out when an activity matches the time you have.",
       },
     ],
+    plans: {
+      title: "What we are getting ready",
+      items: [
+        "Book sharing — swapping books and reading",
+        "Storytelling from village to village",
+        "Reading together out in the open",
+      ],
+      note: "None of it has started yet. What it looks like, and when, gets decided together with whoever joins.",
+    },
   },
 
   finalCta: {
     title: "The next story needs one more person",
     description:
-      "Open to volunteers, writers, teachers, and anyone who wants to grow a reading culture in Labuan Bajo.",
+      "Open to students, teachers, newcomers, and anyone who enjoys reading — including anyone who does not yet feel they have a role.",
+    formLabel: "Fill in the form",
     primaryLabel: "Send an email",
     secondaryLabel: "Say hi on Instagram",
   },
