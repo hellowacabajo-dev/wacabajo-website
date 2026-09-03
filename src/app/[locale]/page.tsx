@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { Eyebrow, Section, SectionHeading } from "@/components/ui/Section";
 import { getContent } from "@/lib/content";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
+import { getRoute } from "@/lib/i18n/routes";
 import { siteConfig } from "@/lib/site";
 
 /**
@@ -35,9 +36,9 @@ export default async function HomePage({ params }: PageParams) {
   const { hero, heroFacts, foundation, belief, values, join, finalCta } =
     getContent(locale);
 
-  // Formulirnya belum tentu sudah ada. Selama URL-nya kosong, tombolnya tidak
-  // dirender sama sekali — lebih baik daripada mengirim orang ke tautan mati.
-  const { survey: surveyUrl, join: joinFormUrl } = siteConfig.forms;
+  // Formulir rekrutmen belum tentu sudah ada. Selama URL-nya kosong, tombolnya
+  // tidak dirender sama sekali — lebih baik daripada tautan mati.
+  const joinFormUrl = siteConfig.forms.join;
 
   return (
     <>
@@ -79,18 +80,14 @@ export default async function HomePage({ params }: PageParams) {
               >
                 {hero.joinCta.label}
               </ButtonLink>
-              {surveyUrl ? (
-                <ButtonLink
-                  href={surveyUrl}
-                  size="lg"
-                  variant="outline"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full sm:w-auto"
-                >
-                  {hero.surveyCta.label}
-                </ButtonLink>
-              ) : null}
+              <ButtonLink
+                href={getRoute(locale, "survey")}
+                size="lg"
+                variant="outline"
+                className="w-full sm:w-auto"
+              >
+                {hero.surveyCta.label}
+              </ButtonLink>
               <ButtonLink
                 href={hero.aboutCta.href}
                 size="lg"

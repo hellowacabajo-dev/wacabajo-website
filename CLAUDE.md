@@ -38,6 +38,12 @@ dihapus — style guide tidak tayang untuk publik.
   (`getContent("id" | "en")`), dan copy antarmuka umum (nav, footer, 404) di
   `src/lib/i18n/ui.ts` (`getUi(locale)`). Menyunting teks tidak boleh
   menyentuh markup.
+- **Pengecualian bentuk data:** isi survei di `src/lib/survey/questions.ts`
+  menyimpan kedua bahasa dalam satu objek (`{ id: "...", en: "..." }`), bukan
+  dua objek terpisah. Alasannya label harus selalu terikat pada `value` opsi
+  yang tersimpan di database — kalau dipisah per locale, satu opsi yang lupa
+  diterjemahkan langsung merusak rekap dan tidak ketahuan TypeScript. Aturan
+  "satu locale, satu bahasa" tetap berlaku untuk yang tampil di layar.
 
 ### UI/UX — berlaku untuk desktop dan mobile
 
@@ -84,6 +90,13 @@ Lalu jalankan checklist merge di `docs/DESIGN.md` §9.
 - Copy antarmuka umum per locale (nav, footer, 404, sakelar tema) →
   `src/lib/i18n/ui.ts`
 - Daftar locale & locale default → `src/lib/i18n/config.ts`
+- Slug halaman per locale (`/id/survei`, `/en/survey`) → `src/lib/i18n/routes.ts`
+- Isi survei need assessment (pertanyaan, opsi, teks pembuka/penutup, dwibahasa
+  dalam satu objek) → `src/lib/survey/questions.ts`
+- Validasi survei (dipakai browser & server) → `src/lib/survey/validate.ts`
+- Pengiriman jawaban ke Supabase → `src/lib/survey/actions.ts`, `src/lib/supabase.ts`
+- Skema tabel + Row Level Security → `supabase/schema.sql`
+- Panduan menyambungkan Supabase → `docs/SUPABASE.md`
 - Redirect `/` → `/id` → `src/proxy.ts`
 - Konfigurasi situs & navigasi → `src/lib/site.ts`
 - Rujukan desain, brand, copy, dan standar UI/UX → `docs/DESIGN.md`

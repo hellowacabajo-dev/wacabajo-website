@@ -75,12 +75,14 @@ variabel wajib.
 
 - `NEXT_PUBLIC_SITE_URL` — baru perlu diisi saat deploy agar canonical URL,
   Open Graph, `robots.txt`, dan `sitemap.xml` menunjuk ke domain yang benar.
-- `NEXT_PUBLIC_SURVEY_URL` — tautan Google Form survei. Selama kosong, tombol
-  "Isi survei" di hero tidak dirender.
+- `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY` — penyimpanan
+  jawaban survei. Selama kosong, halaman survei tetap bisa dibuka dan diisi,
+  tapi menolak mengirim di langkah terakhir. Panduan lengkapnya di
+  [`docs/SUPABASE.md`](docs/SUPABASE.md).
 - `NEXT_PUBLIC_JOIN_FORM_URL` — tautan Google Form rekrutmen. Selama kosong,
   ajakan penutup hanya menampilkan email dan Instagram.
 
-Ketiganya `NEXT_PUBLIC_*`, jadi nilainya ikut ter-inline saat build — ganti
+Semuanya `NEXT_PUBLIC_*`, jadi nilainya ikut ter-inline saat build — ganti
 nilai berarti build ulang.
 
 ## Yang masih menunggu aset

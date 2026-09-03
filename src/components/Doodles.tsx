@@ -156,6 +156,8 @@ export const doodleByName = {
   glasses: DoodleGlasses,
   speech: DoodleSpeech,
   pencil: DoodlePencil,
+  wave: DoodleWave,
+  sparkle: DoodleSparkle,
 } as const;
 
 /**

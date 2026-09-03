@@ -1,6 +1,7 @@
 /** Konfigurasi situs — dipakai metadata, header, footer, sitemap, robots. */
 
 import type { Locale } from "@/lib/i18n/config";
+import { getRoute } from "@/lib/i18n/routes";
 
 export const siteConfig = {
   name: "Waca Bajo",
@@ -19,9 +20,11 @@ export const siteConfig = {
    * tautannya bisa diganti tanpa menyunting kode, dan supaya CTA-nya tidak
    * pernah tayang sebagai tautan mati selama formulirnya belum dibuat —
    * komponen menyembunyikan tombolnya kalau nilainya kosong.
+   *
+   * Survei tidak ada di sini: sejak jadi halaman sendiri (`/id/survei`),
+   * tautannya internal dan selalu ada.
    */
   forms: {
-    survey: process.env.NEXT_PUBLIC_SURVEY_URL ?? "",
     join: process.env.NEXT_PUBLIC_JOIN_FORM_URL ?? "",
   },
 } as const;
@@ -47,19 +50,21 @@ export type NavItem = {
   href: string;
 };
 
-const navLabels: Record<Locale, [string, string]> = {
-  id: ["Tentang", "Nilai"],
-  en: ["About", "Values"],
+const navLabels: Record<Locale, [string, string, string]> = {
+  id: ["Tentang", "Nilai", "Survei"],
+  en: ["About", "Values", "Survey"],
 };
 
 /**
- * Urutannya mengikuti urutan section di beranda. Hanya fragment (`#tentang`)
- * tanpa prefix locale supaya tetap di path yang sama saat diklik.
+ * Urutannya mengikuti urutan section di beranda. Dua yang pertama fragment
+ * (`#tentang`) tanpa prefix locale supaya tetap di path yang sama saat diklik;
+ * survei halaman tersendiri, jadi pakai path penuh.
  */
 export function getMainNav(locale: Locale): NavItem[] {
-  const [about, values] = navLabels[locale];
+  const [about, values, survey] = navLabels[locale];
   return [
-    { label: about, href: "#tentang" },
-    { label: values, href: "#nilai" },
+    { label: about, href: `/${locale}#tentang` },
+    { label: values, href: `/${locale}#nilai` },
+    { label: survey, href: getRoute(locale, "survey") },
   ];
 }

@@ -5,7 +5,12 @@ import { Bricolage_Grotesque, Sorts_Mill_Goudy } from "next/font/google";
 import "../globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
-import { isLocale, locales, defaultLocale, type Locale } from "@/lib/i18n/config";
+import {
+  isLocale,
+  locales,
+  defaultLocale,
+  type Locale,
+} from "@/lib/i18n/config";
 import { getUi } from "@/lib/i18n/ui";
 import { getOgLocale, getSiteDescription, siteConfig } from "@/lib/site";
 

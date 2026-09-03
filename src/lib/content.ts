@@ -15,11 +15,7 @@ import type { Locale } from "@/lib/i18n/config";
 
 /** Keluarga warna brand yang boleh dipakai sebagai tone komponen. */
 export type BrandTone =
-  | "forest"
-  | "persephone"
-  | "maritime"
-  | "gold"
-  | "brandy";
+  "forest" | "persephone" | "maritime" | "gold" | "brandy";
 
 /** Nama doodle di `src/components/Doodles.tsx`. */
 export type DoodleName =
@@ -29,7 +25,9 @@ export type DoodleName =
   | "sun"
   | "glasses"
   | "speech"
-  | "pencil";
+  | "pencil"
+  | "wave"
+  | "sparkle";
 
 interface HeroContent {
   eyebrow: string;
@@ -38,7 +36,7 @@ interface HeroContent {
   /** Kutipan pembuka, tampil italic di bawah deskripsi. */
   quote: string;
   joinCta: { label: string; href: string };
-  /** Tautannya dari `siteConfig.forms.survey` — tidak tampil kalau kosong. */
+  /** Tautannya ke halaman survei internal (`src/lib/i18n/routes.ts`). */
   surveyCta: { label: string };
   aboutCta: { label: string; href: string };
 }
@@ -189,7 +187,8 @@ const id: HomeContent = {
         tone: "forest",
         name: "Bersama",
         meaning: "Semua orang punya tempat yang sama.",
-        practice: "Kegiatan disusun bersama warga, bukan dibawa jadi dari luar.",
+        practice:
+          "Kegiatan disusun bersama warga, bukan dibawa jadi dari luar.",
       },
       {
         tone: "maritime",

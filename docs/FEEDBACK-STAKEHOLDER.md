@@ -256,22 +256,30 @@ dikerjakan:
 | Section rekrutmen terbuka & rendah friction | Section "Cara bergabung" jadi "Ikut terlibat" (`join` di content.ts, anchor `#gabung` pindah ke sini). Tiga langkah tidak meminta apa pun selain cerita: ceritakan siapa kamu → sebut yang ingin kamu lakukan → kami hubungi kalau ada yang cocok. Kalimat "belum tahu juga tidak apa-apa" sengaja ada untuk yang merasa tidak punya peran | **selesai** (2026-09-03) |
 | Gambaran kegiatan di section rekrutmen | Panel "Kegiatan yang sedang kami siapkan" di dalam section yang sama: book sharing, mendongeng dari desa ke desa, baca buku bareng — dengan catatan tetap "belum ada yang berjalan" | **selesai** (2026-09-03) — ditaruh satu section, bukan section sendiri; kalau stakeholder maunya terpisah tinggal dipindah |
 | Terjemahan Inggris terasa hasil AI | Seluruh `en` di content.ts ditulis ulang sebagai teks Inggris yang berdiri sendiri (bukan terjemahan kalimat per kalimat), termasuk judul hero yang ikut kehilangan "then": `"Read the words, read the world."` | **selesai** (2026-09-03) — perlu satu kali baca ulang oleh yang lebih nyaman berbahasa Inggris sebelum tayang |
-| Tautan Google Form survei & rekrutmen | Belum ada URL-nya. Disiapkan lewat environment: `NEXT_PUBLIC_SURVEY_URL` dan `NEXT_PUBLIC_JOIN_FORM_URL` (lihat `.env.example` dan `siteConfig.forms`) | **menunggu stakeholder** — selama kosong, tombol "Isi survei" dan "Isi formulir" tidak dirender sama sekali supaya tidak ada tautan mati |
+| Survei need assessment | Dibuat sebagai **halaman di dalam website**, bukan Google Form: `/id/survei` dan `/en/survey`. Multi-step, 17 pertanyaan dalam 8 langkah, plus layar pembuka + consent dan layar penutup. Isi pertanyaannya persis naskah di §1. Jawaban masuk ke Supabase | **selesai** (2026-09-03) — tinggal isi environment Supabase; langkahnya di [docs/SUPABASE.md](SUPABASE.md) |
+| Format data masuk: nama uppercase, umur angka bebas | Nama diubah jadi huruf besar semua saat disimpan (bukan saat diketik, supaya tidak mengganggu pengisi); umur input angka bebas dengan `inputMode="numeric"`, bukan pilihan rentang | **selesai** (2026-09-03) |
+| Pertanyaan "giliran kamu cerita" opsional | Dua pertanyaan terakhir (harapan & kontak) boleh dilewati; tombolnya langsung "Kirim jawaban" | **selesai** (2026-09-03) |
+| Tautan Google Form rekrutmen | Belum ada URL-nya. Disiapkan lewat environment `NEXT_PUBLIC_JOIN_FORM_URL` (lihat `.env.example` dan `siteConfig.forms`) | **menunggu stakeholder** — selama kosong, tombol "Isi formulir" tidak dirender sama sekali supaya tidak ada tautan mati |
 
 ## Belum jelas / perlu klarifikasi ke stakeholder
 
-- Isi survei sudah lengkap di §1, tapi belum ada Google Form-nya. Begitu
-  tautannya jadi, isi `NEXT_PUBLIC_SURVEY_URL` — tombol "Isi survei" di hero
-  langsung tayang tanpa perlu ganti kode. Sama untuk formulir rekrutmen
-  (`NEXT_PUBLIC_JOIN_FORM_URL`).
+- Formulir rekrutmen belum ada. Begitu tautannya jadi, isi
+  `NEXT_PUBLIC_JOIN_FORM_URL` — tombolnya langsung tayang tanpa ganti kode.
+- Halaman survei sengaja diberi `noindex`: tautannya disebar lewat kanal Waca
+  Bajo sendiri, dan lalu lintas pencarian acak cuma menambah jawaban yang tidak
+  relevan dengan Labuan Bajo. Kalau stakeholder mau survei ini bisa ditemukan
+  di Google, hapus baris `robots` di `src/lib/survey/page.ts` dan tambahkan
+  route-nya ke `src/app/sitemap.ts`.
 - Gambaran "kegiatan ke depan" (book sharing, dongeng, dll) untuk sekarang
   ditaruh di section rekrutmen yang sama. Perlu konfirmasi apakah stakeholder
   maunya begitu atau jadi section terpisah.
 - Visi & misi belum dimasukkan ke section "Mengapa kami hadir" — teksnya belum
   ada di catatan ini; yang paling dekat baru pernyataan di section "Yang kami
   percayai". Perlu naskah visi-misi finalnya dari dokumen copywriting.
-- Struktur survei final: per-section (multi-step) atau satu halaman panjang —
-  belum diputuskan, stakeholder menyerahkan ke tim.
+- Struktur survei: dipilih **multi-step**, satu section per layar (stakeholder
+  menyerahkan ke tim). Alasannya 17 pertanyaan dalam satu halaman panjang
+  terbaca seperti pekerjaan di ponsel. Konsekuensinya isian disimpan sementara
+  di browser, dan saat kembali pengisi ditawari melanjutkan atau mulai ulang.
 - Warna pengganti merah di dark mode: dipilih Sunset Gold 400 (opsi "kuning"
   yang disebut stakeholder), karena kontrasnya paling kuat dari semua kandidat
   dan warnanya sudah jadi identitas hangat situs. Opsi biru sempat dihitung —

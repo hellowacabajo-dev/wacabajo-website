@@ -31,6 +31,23 @@ type UiCopy = {
   localeSwitcher: {
     ariaLabel: string;
   };
+  /** Kerangka form survei; isi pertanyaannya ada di `src/lib/survey`. */
+  survey: {
+    navLabel: string;
+    optional: string;
+    otherOption: string;
+    otherPlaceholder: string;
+    /** `{current}` dan `{total}` diganti saat render. */
+    progress: string;
+    progressLabel: string;
+    back: string;
+    next: string;
+    submit: string;
+    submitting: string;
+    resumeNote: string;
+    resumeContinue: string;
+    resumeRestart: string;
+  };
 };
 
 const id: UiCopy = {
@@ -59,6 +76,22 @@ const id: UiCopy = {
   localeSwitcher: {
     ariaLabel: "Ganti bahasa",
   },
+  survey: {
+    navLabel: "Survei",
+    optional: "Opsional",
+    otherOption: "Lainnya",
+    otherPlaceholder: "Tulis sendiri di sini",
+    progress: "Langkah {current} dari {total}",
+    progressLabel: "Kemajuan pengisian survei",
+    back: "Kembali",
+    next: "Lanjut",
+    submit: "Kirim jawaban",
+    submitting: "Mengirim...",
+    resumeNote:
+      "Di perangkat ini ada isian survei yang belum selesai. Mau dilanjutkan?",
+    resumeContinue: "Lanjutkan isian",
+    resumeRestart: "Mulai dari awal",
+  },
 };
 
 const en: UiCopy = {
@@ -86,6 +119,22 @@ const en: UiCopy = {
   },
   localeSwitcher: {
     ariaLabel: "Switch language",
+  },
+  survey: {
+    navLabel: "Survey",
+    optional: "Optional",
+    otherOption: "Something else",
+    otherPlaceholder: "Tell us in your own words",
+    progress: "Step {current} of {total}",
+    progressLabel: "Survey progress",
+    back: "Back",
+    next: "Continue",
+    submit: "Send my answers",
+    submitting: "Sending...",
+    resumeNote:
+      "There is an unfinished survey saved on this device. Pick up where you left off?",
+    resumeContinue: "Continue where I stopped",
+    resumeRestart: "Start over",
   },
 };
 
