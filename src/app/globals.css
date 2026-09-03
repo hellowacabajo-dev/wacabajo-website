@@ -189,11 +189,21 @@
   --border: var(--forest-700);
   --border-strong: var(--forest-600);
 
-  --primary: var(--persephone-600); /* teks cream di atasnya 4.7:1 */
-  --primary-hover: var(--persephone-500);
-  --primary-foreground: var(--cream-50);
+  /**
+   * Tombol utama memakai Sunset Gold di tema gelap, bukan burgundy seperti di
+   * tema terang: burgundy 600 di atas Darkest Forest cuma terpisah 2,8:1 dari
+   * latarnya — tombolnya sulit ditemukan, dan kombinasi hijau-merahnya
+   * mengganggu. Gold 400 memberi teks 7,3:1 dan pemisahan 6,7:1 dari latar.
+   * Hover naik ke Gold 300 (bukan turun ke 500) karena di latar gelap arah
+   * "lebih terang" yang terbaca sebagai terangkat.
+   */
+  --primary: var(--gold-400);
+  --primary-hover: var(--gold-300);
+  --primary-foreground: var(--persephone-950);
 
-  /* Sunset Gold tetap sama — kontrasnya independen dari background halaman. */
+  /* Sunset Gold tetap sama — kontrasnya independen dari background halaman.
+     Di tema gelap nilainya berimpit dengan --primary; varian `accent` pada
+     Button memang belum dipakai komponen mana pun. */
   --accent: var(--gold-400);
   --accent-hover: var(--gold-500);
   --accent-foreground: var(--persephone-950);

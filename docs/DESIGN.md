@@ -74,7 +74,14 @@ Hanya kombinasi berikut yang dipakai untuk teks (semua lolos WCAG AA):
 | Darkest Forest 950   | Sunset Gold 300  | 8.7:1  | Eyebrow dan aksen di section gelap  |
 | Persephone 800       | Vintage Cream 50 | 8.6:1  | Tombol primer dan badge             |
 | Maritime Outpost 700 | Vintage Cream 50 | 9.1:1  | Section informatif, tag program     |
-| Sunset Gold 400      | Persephone 950   | 7.3:1  | Tombol aksen                        |
+| Sunset Gold 400      | Persephone 950   | 7.3:1  | Tombol aksen; tombol primer di tema gelap |
+
+Di **tema gelap** tombol primer berpindah dari Persephone 800 ke Sunset Gold
+400. Burgundy 600 — nilai yang dipakai sebelumnya — cuma terpisah 2,8:1 dari
+latar Darkest Forest 950, jadi tombolnya sulit ditemukan, dan kombinasi
+hijau-merahnya juga yang dikeluhkan stakeholder. Gold 400 terpisah 6,7:1 dari
+latar. Hover-nya naik ke Gold 300 (bukan turun ke 500) karena di latar gelap
+arah "lebih terang" yang terbaca sebagai terangkat.
 
 **Sunset Gold tidak pernah dipakai sebagai warna teks di atas Vintage Cream**
 (hanya 1.9:1), dan teks putih tidak pernah dipakai di atas Sunset Gold (1.9:1).
@@ -100,9 +107,10 @@ semuanya lolos **AAA**, pola ini aman untuk teks sekecil chip:
 Chip Sunset Gold adalah **satu-satunya** cara Gold boleh menampung teks kecil —
 karena yang dipakai adalah tint 50, bukan Gold 300/400.
 
-Untuk chip di atas bidang warna pekat (kepala kartu program) dipakai
-`ChipOnDark`: latar Vintage Cream 50 solid dengan teks Persephone 950, yang
-lolos AAA di atas warna apa pun dari palet.
+Kalau nanti perlu chip di atas bidang warna pekat, polanya: latar Vintage
+Cream 50 solid dengan teks Persephone 950 — lolos AAA di atas warna apa pun
+dari palet. (Komponen `ChipOnDark` yang dulu memakai pola ini ikut terhapus
+bersama section program.)
 
 ---
 

@@ -250,7 +250,7 @@ dikerjakan:
 | Label locale switcher eksplisit | Sudah jadi "Bahasa Indonesia" / "Bahasa Inggris" di [LocaleSwitcher.tsx](../src/components/LocaleSwitcher.tsx). Di desktop tampil langsung di header; di mobile dipindah ke dalam menu (hamburger) karena teks penuh tidak muat di top bar yang sempit — lihat [SiteHeader.tsx](../src/components/SiteHeader.tsx) | **selesai** (2026-09-03) — perubahan perilaku: di mobile, switcher bahasa sekarang cuma muncul setelah menu dibuka, tidak lagi langsung kelihatan di top bar |
 | Hero tanpa kata "lalu" | Sudah jadi `"Membaca kata, membaca dunia."` di [content.ts](../src/lib/content.ts) | **selesai** (2026-09-03) |
 | Section program dihilangkan | Dikonfirmasi stakeholder: **dihilangkan dulu**. Section, nav item, `programs` content (id/en), komponen `ProgramCard`, dan `ChipOnDark` yang cuma dipakainya sudah dihapus. Hero secondary CTA yang tadinya "Lihat program" dialihkan jadi "Kenali Waca Bajo" → `#tentang`, dan hero fact "Tiga program" dihapus (heroFacts tinggal 2 item, grid disesuaikan ke `sm:grid-cols-2`) | **selesai** (2026-09-03) — `npm run build`, `lint`, `typecheck` semua lolos |
-| Aksen dark mode bukan merah | Token `--accent` sudah pakai Sunset Gold (`--gold-400`/`--gold-500`), bukan merah — lihat [globals.css:118](../src/app/globals.css:118) | kemungkinan sudah diperbaiki di iterasi desain setelah rekaman ini dibuat, tinggal konfirmasi visual ke stakeholder |
+| Aksen dark mode bukan merah | `--accent` memang sudah Sunset Gold, tapi yang bikin merah tetap dominan di tema gelap adalah `--primary` (Persephone 600) — warna semua tombol utama, pil locale switcher aktif, dan skip link. Sekarang tombol primer tema gelap ikut Sunset Gold 400 dengan teks Persephone 950 | **selesai** (2026-09-03) — burgundy 600 cuma terpisah 2,8:1 dari latar Darkest Forest (tombolnya sulit ditemukan); gold 400 terpisah 6,7:1 dengan teks 7,3:1. Tema terang tidak berubah |
 | Hero: kutipan italic + tiga CTA | Kutipan *"Kami percaya membaca adalah awal dari rasa ingin tahu..."* ditambahkan sebagai `hero.quote`; CTA jadi tiga: "Jadi bagian dari Waca Bajo" → `#gabung`, "Isi survei" → tautan Google Form, "Kenali Waca Bajo" → `#tentang` | **selesai** (2026-09-03) — tombol survei baru tayang setelah URL formulirnya diisi (lihat baris di bawah) |
 | Hero: body copy pengantar | `hero.description` ditulis ulang jadi pengantar Waca Bajo yang menyebut posisi sebenarnya: kegiatannya masih disusun bersama warga, siapa pun boleh ikut sejak awal | **selesai** (2026-09-03) — versi lama ("kami membuka ruang baca, memandu kelas cerita...") dihapus karena mengklaim kegiatan yang belum berjalan, masalah yang sama dengan section program |
 | Section rekrutmen terbuka & rendah friction | Section "Cara bergabung" jadi "Ikut terlibat" (`join` di content.ts, anchor `#gabung` pindah ke sini). Tiga langkah tidak meminta apa pun selain cerita: ceritakan siapa kamu → sebut yang ingin kamu lakukan → kami hubungi kalau ada yang cocok. Kalimat "belum tahu juga tidak apa-apa" sengaja ada untuk yang merasa tidak punya peran | **selesai** (2026-09-03) |
@@ -272,6 +272,11 @@ dikerjakan:
   percayai". Perlu naskah visi-misi finalnya dari dokumen copywriting.
 - Struktur survei final: per-section (multi-step) atau satu halaman panjang —
   belum diputuskan, stakeholder menyerahkan ke tim.
-- Warna pengganti aksen merah di dark mode belum ditentukan pasti — perlu
-  dicek apakah Sunset Gold yang sudah dipakai sekarang sudah menjawab keluhan
-  ini atau stakeholder perlu melihat ulang.
+- Warna pengganti merah di dark mode: dipilih Sunset Gold 400 (opsi "kuning"
+  yang disebut stakeholder), karena kontrasnya paling kuat dari semua kandidat
+  dan warnanya sudah jadi identitas hangat situs. Opsi biru sempat dihitung —
+  Maritime 700 terlalu gelap untuk jadi tombol di latar gelap, Maritime 500
+  tidak lolos AA untuk teks (4,1:1). Tinggal konfirmasi visual ke stakeholder.
+- Gradien `golden-hour` (strip tipis di bawah hero) masih berujung Persephone
+  700. Kecil dan dekoratif, jadi dibiarkan — sebut kalau stakeholder ingin
+  merahnya hilang sama sekali dari tema gelap.
