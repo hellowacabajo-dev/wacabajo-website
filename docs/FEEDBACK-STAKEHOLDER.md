@@ -256,7 +256,7 @@ dikerjakan:
 | Section rekrutmen terbuka & rendah friction | Section "Cara bergabung" jadi "Ikut terlibat" (`join` di content.ts, anchor `#gabung` pindah ke sini). Tiga langkah tidak meminta apa pun selain cerita: ceritakan siapa kamu → sebut yang ingin kamu lakukan → kami hubungi kalau ada yang cocok. Kalimat "belum tahu juga tidak apa-apa" sengaja ada untuk yang merasa tidak punya peran | **selesai** (2026-09-03) |
 | Gambaran kegiatan di section rekrutmen | Panel "Kegiatan yang sedang kami siapkan" di dalam section yang sama: book sharing, mendongeng dari desa ke desa, baca buku bareng — dengan catatan tetap "belum ada yang berjalan" | **selesai** (2026-09-03) — ditaruh satu section, bukan section sendiri; kalau stakeholder maunya terpisah tinggal dipindah |
 | Terjemahan Inggris terasa hasil AI | Seluruh `en` di content.ts ditulis ulang sebagai teks Inggris yang berdiri sendiri (bukan terjemahan kalimat per kalimat), termasuk judul hero yang ikut kehilangan "then": `"Read the words, read the world."` | **selesai** (2026-09-03) — perlu satu kali baca ulang oleh yang lebih nyaman berbahasa Inggris sebelum tayang |
-| Survei need assessment | Dibuat sebagai **halaman di dalam website**, bukan Google Form: `/id/survei` dan `/en/survey`. Multi-step, 17 pertanyaan dalam 8 langkah, plus layar pembuka + consent dan layar penutup. Isi pertanyaannya persis naskah di §1. Jawaban masuk ke Supabase | **selesai** (2026-09-03) — tinggal isi environment Supabase; langkahnya di [docs/SUPABASE.md](SUPABASE.md) |
+| Survei need assessment | Dibuat sebagai **halaman di dalam website**, bukan Google Form: `/id/survei` dan `/en/survey`. Multi-step, 17 pertanyaan dalam 9 langkah, plus layar pembuka + consent dan layar penutup. Isi pertanyaannya persis naskah di §1. Jawaban masuk ke Supabase | **selesai** (2026-09-03) — tinggal isi environment Supabase; langkahnya di [docs/SUPABASE.md](SUPABASE.md) |
 | Format data masuk: nama uppercase, umur angka bebas | Nama diubah jadi huruf besar semua saat disimpan (bukan saat diketik, supaya tidak mengganggu pengisi); umur input angka bebas dengan `inputMode="numeric"`, bukan pilihan rentang | **selesai** (2026-09-03) |
 | Pertanyaan "giliran kamu cerita" opsional | Dua pertanyaan terakhir (harapan & kontak) boleh dilewati; tombolnya langsung "Kirim jawaban" | **selesai** (2026-09-03) |
 | Tautan Google Form rekrutmen | Belum ada URL-nya. Disiapkan lewat environment `NEXT_PUBLIC_JOIN_FORM_URL` (lihat `.env.example` dan `siteConfig.forms`) | **menunggu stakeholder** — selama kosong, tombol "Isi formulir" tidak dirender sama sekali supaya tidak ada tautan mati |
@@ -273,6 +273,10 @@ dikerjakan:
 - Gambaran "kegiatan ke depan" (book sharing, dongeng, dll) untuk sekarang
   ditaruh di section rekrutmen yang sama. Perlu konfirmasi apakah stakeholder
   maunya begitu atau jadi section terpisah.
+- Section "Kalau boleh pilih, mau baca bareng ngapain?" dipecah jadi dua
+  langkah di website (kegiatan, lalu obrolan) karena digabung satu layar
+  memuat 21 kartu pilihan. Teks pertanyaannya tidak diubah sama sekali; yang
+  bertambah cuma judul langkah kedua ("Kalau ngobrol bareng, mau bahas apa?").
 - Visi & misi belum dimasukkan ke section "Mengapa kami hadir" — teksnya belum
   ada di catatan ini; yang paling dekat baru pernyataan di section "Yang kami
   percayai". Perlu naskah visi-misi finalnya dari dokumen copywriting.

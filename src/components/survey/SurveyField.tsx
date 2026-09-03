@@ -56,8 +56,10 @@ function OptionCard({
       <span
         className={cn(
           "flex min-h-14 items-center gap-3 rounded-lg border border-border bg-surface-raised px-4 py-3",
-          "text-sm leading-snug transition-[border-color,background-color] duration-200 md:text-base",
-          "group-hover:border-border-strong",
+          "text-sm leading-snug transition-[border-color,background-color,transform] duration-200 md:text-base",
+          // Ponsel tidak punya hover: tanpa state :active, menekan kartu tidak
+          // memberi tanda apa pun sampai React selesai me-render.
+          "group-hover:border-border-strong group-active:scale-[0.99] group-active:border-border-strong group-active:bg-surface",
           "peer-checked:border-primary peer-checked:bg-surface",
           "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary",
         )}
@@ -217,8 +219,8 @@ export function SurveyField({
                   <span
                     className={cn(
                       "flex h-14 items-center justify-center rounded-lg border border-border bg-surface-raised",
-                      "text-lg transition-[border-color,background-color,color] duration-200 md:text-xl",
-                      "group-hover:border-border-strong",
+                      "text-lg transition-[border-color,background-color,color,transform] duration-200 md:text-xl",
+                      "group-hover:border-border-strong group-active:scale-[0.97] group-active:border-border-strong",
                       "peer-checked:border-primary peer-checked:bg-primary peer-checked:text-primary-foreground",
                       "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary",
                     )}

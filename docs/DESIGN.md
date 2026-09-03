@@ -388,7 +388,22 @@ Mobile-first. Empat titik uji wajib: **375px**, **768px**, **1024px**,
   `sm`. Dua CTA berdampingan tidak pernah dipaksakan di 375px.
 - Panel yang menutupi konten (menu mobile) mengunci scroll halaman di
   belakangnya dan bisa di-scroll sendiri kalau layarnya pendek.
-- Interaksi tidak pernah hanya bergantung pada hover.
+- Interaksi tidak pernah hanya bergantung pada hover. Di ponsel tidak ada
+  hover sama sekali, jadi elemen yang bisa ditekan wajib punya state `active:`
+  (kartu pilihan survei memakai `group-active:` + skala 0,99).
+- **Aksi utama di layar panjang menempel di dasar layar pada ponsel.** Kalau
+  satu layar lebih tinggi dari sekitar dua kali viewport, tombol lanjut/kirim
+  di ujung bawah praktis hilang — di survei, langkah terpanjang dulu menuntut
+  scroll ~1500px sebelum tombolnya terlihat. Polanya: `sticky bottom-0` dengan
+  `pb-[max(1rem,env(safe-area-inset-bottom))]`, lalu kembali `static` mulai
+  `sm`. Tombol utama ditaruh di kanan (`flex-row-reverse`), sisi yang paling
+  gampang dijangkau ibu jari.
+- **Jangan memasang `animate-fade-up` pada elemen yang membungkus anak
+  `position: sticky`.** Animasi itu memakai `animation-fill-mode: both`,
+  sehingga `transform` tetap menempel pada elemen setelah animasinya selesai —
+  dan elemen ber-transform menjadi containing block bagi anak sticky di
+  dalamnya, membuat posisi menempelnya meleset. Animasikan isinya, bukan
+  pembungkusnya.
 
 ### Yang tidak boleh
 
@@ -407,6 +422,7 @@ Mobile-first. Empat titik uji wajib: **375px**, **768px**, **1024px**,
 [ ] Tidak ada scroll horizontal di 375px
 [ ] Tema terang dan gelap dicek terpisah
 [ ] Semua target sentuh ≥44px
+[ ] Aksi utama halaman panjang terjangkau tanpa scroll di 375px
 [ ] Navigasi keyboard: Tab berurutan, focus ring terlihat, Escape berfungsi
 [ ] prefers-reduced-motion diuji
 [ ] Copy mengikuti §3 — dwibahasa lengkap (id & en), Sentence case, tanpa istilah internal

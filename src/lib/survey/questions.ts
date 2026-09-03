@@ -678,6 +678,20 @@ export const surveySteps: SurveyStep[] = [
           },
         ],
       },
+    ],
+  },
+
+  // Dipisah dari langkah "kegiatan": digabung, satu layar memuat 21 kartu
+  // pilihan — sekitar 3000px scroll di ponsel.
+  {
+    id: "obrolan",
+    doodle: "pinisi",
+    eyebrow: { id: "Obrolan", en: "Conversations" },
+    title: {
+      id: "Kalau ngobrol bareng, mau bahas apa?",
+      en: "And when we talk, what should it be about?",
+    },
+    questions: [
       {
         id: "topics",
         type: "checkbox",

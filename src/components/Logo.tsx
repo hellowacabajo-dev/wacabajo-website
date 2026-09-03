@@ -39,7 +39,12 @@ export function Logo({
   if (as === "plain") return mark;
 
   return (
-    <Link href={`/${locale}`} aria-label={homeAriaLabel[locale]}>
+    // `min-h-11` supaya wordmark setinggi 32px tetap punya area sentuh 44px.
+    <Link
+      href={`/${locale}`}
+      aria-label={homeAriaLabel[locale]}
+      className="inline-flex min-h-11 items-center"
+    >
       {mark}
     </Link>
   );

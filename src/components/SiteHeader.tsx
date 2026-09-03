@@ -62,7 +62,9 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <div className="hidden items-center gap-2 md:flex">
           <LocaleSwitcher locale={locale} />
           <ThemeToggle locale={locale} />
-          <ButtonLink href="#gabung" size="sm">
+          {/* Path penuh, bukan "#gabung" saja: header ini juga tampil di
+              halaman survei, tempat section itu tidak ada. */}
+          <ButtonLink href={`/${locale}#gabung`} size="sm">
             {ui.nav.volunteerCta}
           </ButtonLink>
         </div>
@@ -124,7 +126,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             ))}
             <LocaleSwitcher locale={locale} className="mt-3 w-full" />
             <ButtonLink
-              href="#gabung"
+              href={`/${locale}#gabung`}
               className="mt-3"
               onClick={() => setOpen(false)}
             >

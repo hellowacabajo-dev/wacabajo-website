@@ -63,11 +63,12 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                   </a>
                 </li>
                 <li>
-                  {/* `break-words` menahan alamat email tetap di dalam
-                      kolomnya di layar 360–375px. */}
+                  {/* `break-words` tidak cukup: alamat email tidak punya
+                      spasi, jadi ia tetap meluber ~5px di 375px. `anywhere`
+                      mengizinkan patah di tengah kata. */}
                   <a
                     href={`mailto:${siteConfig.social.email}`}
-                    className="inline-flex min-h-11 items-center break-words text-cream-200 transition-colors hover:text-gold-300"
+                    className="inline-flex min-h-11 items-center [overflow-wrap:anywhere] text-cream-200 transition-colors hover:text-gold-300"
                   >
                     {siteConfig.social.email}
                   </a>

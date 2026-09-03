@@ -530,6 +530,17 @@
     outline-color: var(--gold-300);
   }
 
+  /* Menghapus jeda ~300ms sebelum tap dianggap klik di sebagian browser
+     ponsel. `manipulation` hanya mematikan double-tap-to-zoom pada elemen
+     ini — pinch-zoom halaman tetap utuh. */
+  a,
+  button,
+  label,
+  summary,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
   /* Media yang tidak pernah boleh melebihi kolomnya — sumber horizontal
      scroll paling sering di ponsel. */
   img,

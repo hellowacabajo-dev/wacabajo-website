@@ -435,100 +435,127 @@ export function SurveyForm({ locale }: { locale: Locale }) {
       </div>
 
       {/* `key` memaksa React membuat ulang blok ini tiap langkah, jadi animasi
-          masuknya berjalan lagi tanpa state animasi apa pun. */}
-      <div key={step.id} className="animate-fade-up pt-10 md:pt-12">
-        <span className="inline-flex h-14 w-14 items-center justify-center rounded-lg bg-chip-gold-bg text-chip-gold-fg">
-          <Doodle className="w-8" />
-        </span>
+          masuknya berjalan lagi tanpa state animasi apa pun.
 
-        <p
-          ref={stepHeadingRef}
-          tabIndex={-1}
-          className="mt-6 font-sans text-xs font-medium tracking-[0.22em] text-foreground-subtle uppercase focus:outline-none"
-        >
-          {t(locale, step.eyebrow)}
-        </p>
-        <h1 className="mt-3 text-[1.75rem] leading-[1.15] sm:text-[2rem] md:text-4xl">
-          {t(locale, step.title)}
-        </h1>
-        {step.intro ? (
-          <p className="mt-5 text-base leading-relaxed text-foreground-muted md:text-lg">
-            {t(locale, step.intro)}
-          </p>
-        ) : null}
+          Animasinya sengaja tidak dipasang di pembungkus terluar: `fade-up`
+          meninggalkan `transform` pada elemen (animation-fill-mode: both), dan
+          elemen ber-transform jadi containing block bagi anak `position:
+          sticky` di dalamnya — bilah aksi di bawah jadi meleset dari dasar
+          layar. Jadi yang dianimasikan hanya isinya. */}
+      <div key={step.id} className="pt-6 md:pt-12">
+        <div className="animate-fade-up">
+          {/* Doodle sebaris dengan eyebrow, bukan bertumpuk di atasnya: di ponsel
+            susunan bertumpuk mendorong pertanyaan pertama ~70px lebih jauh ke
+            bawah, padahal ruang di atas layar yang paling mahal. */}
+          <div className="flex items-center gap-3">
+            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-chip-gold-bg text-chip-gold-fg md:h-14 md:w-14">
+              <Doodle className="w-7 md:w-8" />
+            </span>
+            <p
+              ref={stepHeadingRef}
+              tabIndex={-1}
+              className="font-sans text-xs font-medium tracking-[0.22em] text-foreground-subtle uppercase focus:outline-none"
+            >
+              {t(locale, step.eyebrow)}
+            </p>
+          </div>
 
-        <div className="mt-10 space-y-10 md:mt-12">
-          {step.questions.map((question) => (
-            <SurveyField
-              key={question.id}
-              locale={locale}
-              question={question}
-              value={draft[question.id]}
-              otherValue={
-                typeof draft[`${question.id}_other`] === "string"
-                  ? (draft[`${question.id}_other`] as string)
-                  : ""
-              }
-              error={errors[question.id]}
-              onChange={(value) => setAnswer(question.id, value)}
-              onOtherChange={(value) =>
-                setAnswer(`${question.id}_other`, value)
-              }
-            />
-          ))}
-        </div>
+          <h1 className="mt-4 text-[1.75rem] leading-[1.15] sm:text-[2rem] md:mt-5 md:text-4xl">
+            {t(locale, step.title)}
+          </h1>
+          {step.intro ? (
+            <p className="mt-5 text-base leading-relaxed text-foreground-muted md:text-lg">
+              {t(locale, step.intro)}
+            </p>
+          ) : null}
 
-        {/* Jebakan bot. `aria-hidden` + tabIndex -1 supaya manusia — termasuk
+          <div className="mt-8 space-y-10 md:mt-12">
+            {step.questions.map((question) => (
+              <SurveyField
+                key={question.id}
+                locale={locale}
+                question={question}
+                value={draft[question.id]}
+                otherValue={
+                  typeof draft[`${question.id}_other`] === "string"
+                    ? (draft[`${question.id}_other`] as string)
+                    : ""
+                }
+                error={errors[question.id]}
+                onChange={(value) => setAnswer(question.id, value)}
+                onOtherChange={(value) =>
+                  setAnswer(`${question.id}_other`, value)
+                }
+              />
+            ))}
+          </div>
+
+          {/* Jebakan bot. `aria-hidden` + tabIndex -1 supaya manusia — termasuk
             pengguna screen reader — tidak pernah menemuinya. */}
-        <div
-          aria-hidden="true"
-          className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
-        >
-          <label htmlFor="website">Website</label>
-          <input
-            id="website"
-            name="website"
-            type="text"
-            tabIndex={-1}
-            autoComplete="off"
-            onChange={(event) => {
-              honeypot.current = event.target.value;
-            }}
-          />
+          <div
+            aria-hidden="true"
+            className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
+          >
+            <label htmlFor="website">Website</label>
+            <input
+              id="website"
+              name="website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              onChange={(event) => {
+                honeypot.current = event.target.value;
+              }}
+            />
+          </div>
+
+          {message ? (
+            <p
+              role="alert"
+              className="mt-10 rounded-lg border border-border bg-surface px-5 py-4 text-sm leading-relaxed text-foreground-muted"
+            >
+              {message}
+            </p>
+          ) : null}
         </div>
 
-        {message ? (
-          <p
-            role="alert"
-            className="mt-10 rounded-lg border border-border bg-surface px-5 py-4 text-sm leading-relaxed text-foreground-muted"
-          >
-            {message}
-          </p>
-        ) : null}
-
-        <div className="mt-12 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row-reverse sm:items-center sm:justify-start sm:gap-4">
-          <Button
-            type="button"
-            size="lg"
-            onClick={handleNext}
-            disabled={pending}
-            className="w-full sm:w-auto"
-          >
-            {pending ? ui.submitting : isLastStep ? ui.submit : ui.next}
-          </Button>
-
-          {stepIndex > 0 ? (
+        {/* Di ponsel bilah ini menempel di dasar layar. Alasannya terukur:
+            langkah terpanjang butuh scroll ~1500px sebelum tombol "Lanjut"
+            terlihat, jadi aksi utamanya praktis hilang. `pb` memakai
+            env(safe-area-inset-bottom) supaya tidak tertimpa gesture bar
+            iPhone. Mulai sm ia kembali mengalir biasa. */}
+        <div
+          className={cn(
+            "sticky bottom-0 z-20 -mx-6 mt-10 border-t border-border bg-background/95 px-6 pt-4 backdrop-blur-sm",
+            "pb-[max(1rem,env(safe-area-inset-bottom))]",
+            "sm:static sm:mx-0 sm:mt-12 sm:bg-transparent sm:px-0 sm:pt-8 sm:pb-0 sm:backdrop-blur-none",
+          )}
+        >
+          {/* `flex-row-reverse` di kedua ukuran: tombol utama tetap di kanan,
+              tempat ibu jari kanan paling gampang menjangkaunya. */}
+          <div className="flex flex-row-reverse items-center gap-3 sm:justify-end sm:gap-4">
             <Button
               type="button"
               size="lg"
-              variant="ghost"
-              onClick={() => goToStep(stepIndex - 1)}
+              onClick={handleNext}
               disabled={pending}
-              className="w-full sm:w-auto"
+              className="flex-1 sm:flex-none"
             >
-              {ui.back}
+              {pending ? ui.submitting : isLastStep ? ui.submit : ui.next}
             </Button>
-          ) : null}
+
+            {stepIndex > 0 ? (
+              <Button
+                type="button"
+                size="lg"
+                variant="ghost"
+                onClick={() => goToStep(stepIndex - 1)}
+                disabled={pending}
+              >
+                {ui.back}
+              </Button>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
