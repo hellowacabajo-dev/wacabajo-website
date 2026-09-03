@@ -247,7 +247,7 @@ dikerjakan:
 
 | Poin feedback | State kode saat ini | Catatan |
 | --- | --- | --- |
-| Label locale switcher eksplisit | `label: Record<Locale, string> = { id: "ID", en: "EN" }` di [LocaleSwitcher.tsx:10](../src/components/LocaleSwitcher.tsx:10) | belum diterapkan — perlu keputusan desain dulu (pill compact vs dropdown) sebelum ganti ke teks panjang |
+| Label locale switcher eksplisit | Sudah jadi "Bahasa Indonesia" / "Bahasa Inggris" di [LocaleSwitcher.tsx](../src/components/LocaleSwitcher.tsx). Di desktop tampil langsung di header; di mobile dipindah ke dalam menu (hamburger) karena teks penuh tidak muat di top bar yang sempit — lihat [SiteHeader.tsx](../src/components/SiteHeader.tsx) | **selesai** (2026-09-03) — perubahan perilaku: di mobile, switcher bahasa sekarang cuma muncul setelah menu dibuka, tidak lagi langsung kelihatan di top bar |
 | Hero tanpa kata "lalu" | Sudah jadi `"Membaca kata, membaca dunia."` di [content.ts](../src/lib/content.ts) | **selesai** (2026-09-03) |
 | Section program dihilangkan | Dikonfirmasi stakeholder: **dihilangkan dulu**. Section, nav item, `programs` content (id/en), komponen `ProgramCard`, dan `ChipOnDark` yang cuma dipakainya sudah dihapus. Hero secondary CTA yang tadinya "Lihat program" dialihkan jadi "Kenali Waca Bajo" → `#tentang`, dan hero fact "Tiga program" dihapus (heroFacts tinggal 2 item, grid disesuaikan ke `sm:grid-cols-2`) | **selesai** (2026-09-03) — `npm run build`, `lint`, `typecheck` semua lolos |
 | Aksen dark mode bukan merah | Token `--accent` sudah pakai Sunset Gold (`--gold-400`/`--gold-500`), bukan merah — lihat [globals.css:118](../src/app/globals.css:118) | kemungkinan sudah diperbaiki di iterasi desain setelah rekaman ini dibuat, tinggal konfirmasi visual ke stakeholder |

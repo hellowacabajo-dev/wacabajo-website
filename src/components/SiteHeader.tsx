@@ -68,7 +68,6 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
-          <LocaleSwitcher locale={locale} />
           <ThemeToggle locale={locale} />
           <button
             type="button"
@@ -123,6 +122,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                 {item.label}
               </Link>
             ))}
+            <LocaleSwitcher locale={locale} className="mt-3 w-full" />
             <ButtonLink
               href="#gabung"
               className="mt-3"
