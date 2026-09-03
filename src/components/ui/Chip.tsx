@@ -39,27 +39,3 @@ export function Chip({
     </span>
   );
 }
-
-/**
- * Varian chip untuk dipakai di atas bidang warna pekat (header kartu program).
- * Latar cream solid dengan teks ink — 13:1 di atas warna apa pun dari palet.
- */
-export function ChipOnDark({
-  className,
-  children,
-}: {
-  className?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-pill bg-cream-50 px-3 py-1",
-        "font-sans text-xs font-medium tracking-wide text-persephone-950 uppercase",
-        className,
-      )}
-    >
-      {children}
-    </span>
-  );
-}

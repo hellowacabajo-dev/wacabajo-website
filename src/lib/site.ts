@@ -37,9 +37,9 @@ export type NavItem = {
   href: string;
 };
 
-const navLabels: Record<Locale, [string, string, string]> = {
-  id: ["Tentang", "Program", "Nilai"],
-  en: ["About", "Programs", "Values"],
+const navLabels: Record<Locale, [string, string]> = {
+  id: ["Tentang", "Nilai"],
+  en: ["About", "Values"],
 };
 
 /**
@@ -47,10 +47,9 @@ const navLabels: Record<Locale, [string, string, string]> = {
  * tanpa prefix locale supaya tetap di path yang sama saat diklik.
  */
 export function getMainNav(locale: Locale): NavItem[] {
-  const [about, programs, values] = navLabels[locale];
+  const [about, values] = navLabels[locale];
   return [
     { label: about, href: "#tentang" },
-    { label: programs, href: "#program" },
     { label: values, href: "#nilai" },
   ];
 }

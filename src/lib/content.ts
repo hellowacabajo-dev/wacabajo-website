@@ -54,21 +54,6 @@ interface FoundationContent {
   items: FoundationItem[];
 }
 
-interface ProgramItem {
-  tone: BrandTone;
-  doodle: DoodleName;
-  title: string;
-  body: string;
-  tags: string[];
-}
-
-interface ProgramsContent {
-  eyebrow: string;
-  title: string;
-  description: string;
-  items: ProgramItem[];
-}
-
 interface BeliefContent {
   eyebrow: string;
   /** Tagline brand — nama diri, sengaja sama di kedua locale. */
@@ -113,7 +98,6 @@ export interface HomeContent {
   hero: HeroContent;
   heroFacts: HeroFact[];
   foundation: FoundationContent;
-  programs: ProgramsContent;
   belief: BeliefContent;
   values: ValuesContent;
   joinSteps: JoinStepsContent;
@@ -125,18 +109,17 @@ export interface HomeContent {
 const id: HomeContent = {
   hero: {
     eyebrow: "Gerakan literasi dari Labuan Bajo",
-    title: "Membaca kata, lalu membaca dunia.",
+    title: "Membaca kata, membaca dunia.",
     description:
       "Kami membuka ruang baca bersama warga, memandu kelas cerita untuk anak dan remaja, dan menjangkau kampung yang belum punya akses bacaan.",
     primaryCta: { label: "Jadi relawan", href: "#gabung" },
-    secondaryCta: { label: "Lihat program", href: "#program" },
+    secondaryCta: { label: "Kenali Waca Bajo", href: "#tentang" },
   },
 
   // Fakta yang bisa diverifikasi dari halaman ini sendiri — bukan angka
   // dampak. Kalau nanti ada data resmi, ganti `value` dan `label`-nya.
   heroFacts: [
     { value: "Labuan Bajo", label: "Tempat kami bekerja" },
-    { value: "Tiga program", label: "Berjalan bersama warga" },
     { value: "Semua usia", label: "Terbuka tanpa syarat" },
   ],
 
@@ -163,36 +146,6 @@ const id: HomeContent = {
         doodle: "sprout",
         title: "Cara kami memaknainya",
         body: "Membaca adalah cara mengenal, memahami, mendengar, dan berbagi cerita. Dari situ orang tumbuh bersama.",
-      },
-    ],
-  },
-
-  programs: {
-    eyebrow: "Program",
-    title: "Tiga jalur, satu tujuan yang sama",
-    description:
-      "Setiap program berjalan bersama warga setempat. Semuanya terbuka untuk relawan baru.",
-    items: [
-      {
-        tone: "forest",
-        doodle: "book",
-        title: "Ruang baca",
-        body: "Titik baca yang dibuka bersama warga — tempat buku berpindah tangan dan cerita berpindah kepala. Boleh datang untuk membaca, boleh juga sekadar duduk mendengarkan.",
-        tags: ["Rutin mingguan", "Semua usia"],
-      },
-      {
-        tone: "persephone",
-        doodle: "pencil",
-        title: "Kelas cerita",
-        body: "Sesi menulis dan bercerita untuk anak dan remaja, dipandu relawan dari komunitas sekitar. Tidak ada yang dinilai, dan tidak ada cerita yang dianggap salah.",
-        tags: ["Anak & remaja", "Dipandu relawan"],
-      },
-      {
-        tone: "maritime",
-        doodle: "pinisi",
-        title: "Jalan literasi",
-        body: "Kunjungan keliling ke kampung dan sekolah yang belum terjangkau akses bacaan. Kami yang berangkat, bukan menunggu didatangi.",
-        tags: ["Keliling kampung", "Bersama sekolah"],
       },
     ],
   },
@@ -279,12 +232,11 @@ const en: HomeContent = {
     description:
       "We open reading spaces with residents, run storytelling classes for children and teens, and reach villages that don't yet have access to books.",
     primaryCta: { label: "Become a volunteer", href: "#gabung" },
-    secondaryCta: { label: "See our programs", href: "#program" },
+    secondaryCta: { label: "Get to know Waca Bajo", href: "#tentang" },
   },
 
   heroFacts: [
     { value: "Labuan Bajo", label: "Where we work" },
-    { value: "Three programs", label: "Run together with residents" },
     { value: "All ages", label: "Open, no requirements" },
   ],
 
@@ -311,36 +263,6 @@ const en: HomeContent = {
         doodle: "sprout",
         title: "How we make sense of it",
         body: "Reading is a way to know, understand, listen, and share stories. That's where people grow together.",
-      },
-    ],
-  },
-
-  programs: {
-    eyebrow: "Programs",
-    title: "Three paths, one shared goal",
-    description:
-      "Every program runs together with local residents. All of them are open to new volunteers.",
-    items: [
-      {
-        tone: "forest",
-        doodle: "book",
-        title: "Reading spaces",
-        body: "Reading points opened together with residents — where books change hands and stories change minds. Come to read, or just sit and listen.",
-        tags: ["Weekly", "All ages"],
-      },
-      {
-        tone: "persephone",
-        doodle: "pencil",
-        title: "Storytelling classes",
-        body: "Writing and storytelling sessions for children and teens, guided by volunteers from the local community. Nothing is graded, and no story is considered wrong.",
-        tags: ["Kids & teens", "Volunteer-led"],
-      },
-      {
-        tone: "maritime",
-        doodle: "pinisi",
-        title: "Literacy on the road",
-        body: "Rounds of visits to villages and schools that don't yet have access to books. We go to them, instead of waiting to be visited.",
-        tags: ["Village rounds", "With schools"],
       },
     ],
   },

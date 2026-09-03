@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
 import { doodleByName, HeroDoodles } from "@/components/Doodles";
-import { ProgramCard } from "@/components/ProgramCard";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card, CardBadge, CardBody, CardTitle } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
@@ -15,7 +14,7 @@ import { siteConfig } from "@/lib/site";
  * Beranda.
  *
  * Urutan section mengikuti alur "kenapa → apa → siapa → bagaimana":
- * hero, fondasi, program, keyakinan, nilai, cara bergabung, ajakan penutup.
+ * hero, fondasi, keyakinan, nilai, cara bergabung, ajakan penutup.
  * Pengunjung baru dapat gambaran utuh tanpa perlu tahu istilah apa pun.
  *
  * Seluruh copy hidup di `src/lib/content.ts`, per locale; halaman ini hanya
@@ -37,7 +36,6 @@ export default async function HomePage({ params }: PageParams) {
     hero,
     heroFacts,
     foundation,
-    programs,
     belief,
     values,
     joinSteps,
@@ -90,7 +88,7 @@ export default async function HomePage({ params }: PageParams) {
           </div>
 
           {/* Strip fakta — fakta struktural, bukan angka dampak. */}
-          <dl className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-3 md:mt-16">
+          <dl className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 md:mt-16">
             {heroFacts.map((fact) => (
               <div
                 key={fact.label}
@@ -134,27 +132,6 @@ export default async function HomePage({ params }: PageParams) {
               </Card>
             );
           })}
-        </div>
-      </Section>
-
-      {/* ── Program ───────────────────────────────────────────────────── */}
-      <Section id="program" tone="surface">
-        <SectionHeading
-          eyebrow={programs.eyebrow}
-          title={programs.title}
-          description={programs.description}
-        />
-        <div className="mt-12 grid gap-6 md:mt-16 md:grid-cols-3">
-          {programs.items.map((program) => (
-            <ProgramCard
-              key={program.title}
-              tone={program.tone}
-              doodle={program.doodle}
-              title={program.title}
-              body={program.body}
-              tags={program.tags}
-            />
-          ))}
         </div>
       </Section>
 
