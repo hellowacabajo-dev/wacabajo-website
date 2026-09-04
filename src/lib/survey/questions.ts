@@ -96,21 +96,42 @@ export const surveyIntro = {
   },
   body: [
     {
-      id: "Belakangan ini, keadaan di sekitar kita banyak berubah. Lewat survei singkat ini, kami ingin mendengar langsung dari kamu bagaimana kondisi membaca, belajar, mencari informasi, dan mendapatkan buku di lingkungan kita sekarang.",
-      en: "A lot has changed around us lately. Through this short survey we want to hear from you directly: what reading, studying, finding information, and getting hold of books look like where you live right now.",
-    },
-    {
-      id: "Jawaban kamu akan membantu Waca Bajo membuat kegiatan yang sesuai dengan kebutuhan masyarakat di lapangan, bukan sekadar berdasarkan dugaan kami.",
-      en: "Your answers help Waca Bajo build activities around what people actually need, instead of what we assume they need.",
-    },
-    {
-      id: "Tidak ada jawaban benar atau salah. Setiap pengalaman dan pandanganmu sangat berarti bagi kami.",
-      en: "There are no right or wrong answers. Every experience and every opinion counts.",
+      id: "Jawabanmu membantu kami memahami kondisi membaca dan akses buku di sekitarmu, supaya kegiatan Waca Bajo sesuai kebutuhan nyata — bukan dugaan. Tidak ada jawaban benar atau salah.",
+      en: "Your answers help us understand reading habits and access to books around you, so Waca Bajo's activities match real needs, not guesses. There are no right or wrong answers.",
     },
   ],
   consent: {
-    id: "Saya bersedia mengisi survei ini secara sukarela. Saya memahami bahwa jawaban saya akan digunakan untuk membantu Waca Bajo mengetahui kebutuhan masyarakat dan membuat kegiatan yang sesuai.",
-    en: "I am filling in this survey voluntarily. I understand my answers will be used to help Waca Bajo understand what people need and shape its activities accordingly.",
+    id: "Saya bersedia mengisi survei ini secara sukarela.",
+    en: "I agree to fill in this survey voluntarily.",
+  },
+  /** Label tautan yang membuka `consentDetails` lewat modal. */
+  consentMore: { id: "Pelajari lebih lanjut", en: "Learn more" },
+  /**
+   * Naskah lengkap yang dulu tampil sebagai paragraf di layar pembuka,
+   * dipindah ke modal supaya kotak persetujuan tetap satu baris tapi
+   * penjelasannya tetap tersedia utuh.
+   */
+  consentDetails: {
+    title: { id: "Tentang survei ini", en: "About this survey" },
+    body: [
+      {
+        id: "Belakangan ini, keadaan di sekitar kita banyak berubah. Lewat survei singkat ini, kami ingin mendengar langsung dari kamu bagaimana kondisi membaca, belajar, mencari informasi, dan mendapatkan buku di lingkungan kita sekarang.",
+        en: "A lot has changed around us lately. Through this short survey we want to hear from you directly: what reading, studying, finding information, and getting hold of books look like where you live right now.",
+      },
+      {
+        id: "Jawaban kamu akan membantu Waca Bajo membuat kegiatan yang sesuai dengan kebutuhan masyarakat di lapangan, bukan sekadar berdasarkan dugaan kami.",
+        en: "Your answers help Waca Bajo build activities around what people actually need, instead of what we assume they need.",
+      },
+      {
+        id: "Tidak ada jawaban benar atau salah. Setiap pengalaman dan pandanganmu sangat berarti bagi kami.",
+        en: "There are no right or wrong answers. Every experience and every opinion counts.",
+      },
+      {
+        id: "Dengan mencentang kotak persetujuan, kamu menyatakan bersedia mengisi survei ini secara sukarela, dan memahami jawabanmu dipakai untuk membantu Waca Bajo mengetahui kebutuhan masyarakat serta menyusun kegiatan yang sesuai.",
+        en: "By ticking the consent box, you agree to take part in this survey voluntarily, and understand your answers will be used to help Waca Bajo learn what the community needs and shape matching activities.",
+      },
+    ],
+    close: { id: "Tutup", en: "Close" },
   },
   consentError: {
     id: "Centang persetujuan dulu supaya kami boleh memakai jawabanmu.",

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+import { LocaleMenuButton } from "@/components/LocaleMenuButton";
 import { LocaleSwitcher } from "@/components/LocaleSwitcher";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -41,10 +42,19 @@ export function SiteHeader({ locale }: { locale: Locale }) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/85 backdrop-blur-sm">
-      <Container className="flex h-18 items-center justify-between gap-6">
+      <Container className="relative flex h-18 items-center justify-between gap-3 md:gap-6">
         <Logo locale={locale} />
 
-        <nav aria-label={ui.nav.ariaLabel} className="hidden md:block">
+        {/* `absolute` + `left-1/2 -translate-x-1/2`, bukan cuma anak flex
+            ketiga di antara `justify-between`: lebar grup kiri (logo) dan
+            kanan (sakelar+tema+CTA) beda jauh, jadi `justify-between` biasa
+            menaruh nav di tengah GAP-nya, bukan di tengah header — geser ke
+            kiri karena grup kanan lebih lebar. Posisi absolut menjamin nav
+            selalu di tengah header, berapa pun beda lebar kedua sisinya. */}
+        <nav
+          aria-label={ui.nav.ariaLabel}
+          className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 md:block"
+        >
           <ul className="flex items-center gap-8">
             {mainNav.map((item) => (
               <li key={item.href}>
@@ -70,6 +80,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         </div>
 
         <div className="flex items-center gap-1 md:hidden">
+          <LocaleMenuButton locale={locale} />
           <ThemeToggle locale={locale} />
           <button
             type="button"
@@ -124,7 +135,8 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                 {item.label}
               </Link>
             ))}
-            <LocaleSwitcher locale={locale} className="mt-3 w-full" />
+            {/* Sakelar bahasa sudah ada di top bar lewat `LocaleMenuButton`,
+                jadi tidak diulang di sini. */}
             <ButtonLink
               href={`/${locale}#gabung`}
               className="mt-3"

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { locales, type Locale } from "@/lib/i18n/config";
+import { localizePath } from "@/lib/i18n/routes";
 import { getUi } from "@/lib/i18n/ui";
 import { cn } from "@/lib/utils";
 
@@ -11,7 +12,7 @@ import { cn } from "@/lib/utils";
 // pengunjung yang belum tentu familiar dengan kode locale.
 const label: Record<Locale, string> = {
   id: "Bahasa Indonesia",
-  en: "Bahasa Inggris",
+  en: "English",
 };
 
 /**
@@ -33,8 +34,7 @@ export function LocaleSwitcher({
   const ui = getUi(locale);
 
   function hrefFor(target: Locale) {
-    const rest = pathname.replace(/^\/(id|en)/, "");
-    return `/${target}${rest}`;
+    return localizePath(pathname, locale, target);
   }
 
   return (

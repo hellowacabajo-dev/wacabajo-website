@@ -10,7 +10,7 @@ import type { Locale } from "@/lib/i18n/config";
 export function SurveyScreen({ locale }: { locale: Locale }) {
   return (
     <div className="gradient-cream-veil min-h-[70dvh]">
-      <Container className="py-10 md:py-24">
+      <Container className="py-6 md:py-24">
         <SurveyForm locale={locale} />
       </Container>
     </div>

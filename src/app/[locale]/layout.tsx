@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Bricolage_Grotesque, Sorts_Mill_Goudy } from "next/font/google";
+import Script from "next/script";
 
 import "../globals.css";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -142,7 +143,16 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* `next/script` (bukan `<script>` mentah): saat pindah locale,
+            `<html>` di layout ini ikut dirender ulang di sisi klien, dan
+            React 19 memperingatkan kalau elemen script dibuat lewat render
+            klien. `beforeInteractive` membuat Next.js menyuntikkannya ke HTML
+            awal dan melewatinya saat rekonsiliasi transisi berikutnya. */}
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
       </head>
       <body className="flex min-h-full flex-col">
         {/* Lompat ke konten — hanya tampil saat menerima fokus keyboard. */}

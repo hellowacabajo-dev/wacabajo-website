@@ -11,6 +11,7 @@ import {
 
 import { doodleByName } from "@/components/Doodles";
 import { Button, ButtonLink } from "@/components/ui/Button";
+import { Modal } from "@/components/ui/Modal";
 import { SurveyField } from "@/components/survey/SurveyField";
 import type { Locale } from "@/lib/i18n/config";
 import { getUi } from "@/lib/i18n/ui";
@@ -85,6 +86,7 @@ export function SurveyForm({ locale }: { locale: Locale }) {
   const [draft, setDraft] = useState<SurveyDraft>({});
   const [consent, setConsent] = useState(false);
   const [consentError, setConsentError] = useState(false);
+  const [consentDetailsOpen, setConsentDetailsOpen] = useState(false);
   const [errors, setErrors] = useState<Record<string, ErrorCode>>({});
   const [message, setMessage] = useState<string | null>(null);
   const [resumeHandled, setResumeHandled] = useState(false);
@@ -276,35 +278,26 @@ export function SurveyForm({ locale }: { locale: Locale }) {
         <p className="font-sans text-xs font-medium tracking-[0.22em] text-foreground-subtle uppercase">
           {t(locale, surveyIntro.eyebrow)}
         </p>
-        <h1 className="mt-4 text-[2rem] leading-[1.1] sm:text-4xl md:text-5xl">
+        <h1 className="mt-3 text-[1.75rem] leading-[1.15] sm:text-4xl md:text-5xl">
           {t(locale, surveyIntro.title)}
         </h1>
-        <p className="mt-6 font-serif text-xl leading-relaxed italic md:text-2xl">
+        <p className="mt-4 font-serif text-lg leading-relaxed italic md:mt-6 md:text-2xl">
           {t(locale, surveyIntro.lead)}
         </p>
 
-        <div className="mt-6 space-y-4 text-base leading-relaxed text-foreground-muted">
+        <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground-muted md:mt-6 md:text-base">
           {surveyIntro.body.map((paragraph) => (
             <p key={paragraph.en}>{t(locale, paragraph)}</p>
           ))}
         </div>
 
-        <ul className="mt-8 flex flex-wrap gap-2">
-          {[
-            surveyIntro.duration,
-            surveyIntro.questionCount,
-            surveyIntro.optionalNote,
-          ].map((fact) => (
-            <li
-              key={fact.en}
-              className="rounded-pill bg-chip-brandy-bg px-3 py-1 font-sans text-xs font-medium text-chip-brandy-fg"
-            >
-              {t(locale, fact)}
-            </li>
-          ))}
+        <ul className="mt-5 flex flex-wrap gap-2 md:mt-8">
+          <li className="rounded-pill bg-chip-brandy-bg px-3 py-1 font-sans text-xs font-medium text-chip-brandy-fg">
+            {t(locale, surveyIntro.duration)}
+          </li>
         </ul>
 
-        <div className="mt-10 rounded-xl border border-border bg-surface-raised p-6 md:p-7">
+        <div className="mt-6 rounded-xl border border-border bg-surface-raised p-5 md:mt-10 md:p-7">
           <label className="group flex cursor-pointer items-start gap-4">
             <input
               type="checkbox"
@@ -342,6 +335,17 @@ export function SurveyForm({ locale }: { locale: Locale }) {
             </span>
           </label>
 
+          {/* Di luar `<label>` supaya tidak ikut men-toggle checkbox saat
+              diklik — event pada elemen interaktif di dalam label tetap
+              memicu aksi default label di beberapa browser. */}
+          <button
+            type="button"
+            onClick={() => setConsentDetailsOpen(true)}
+            className="mt-2 ml-10 flex min-h-11 w-fit items-center py-2 text-sm font-medium text-foreground underline decoration-1 underline-offset-2 hover:text-primary"
+          >
+            {t(locale, surveyIntro.consentMore)}
+          </button>
+
           {consentError ? (
             <p
               id="consent-error"
@@ -356,11 +360,34 @@ export function SurveyForm({ locale }: { locale: Locale }) {
             type="button"
             size="lg"
             onClick={handleStart}
-            className="mt-6 w-full sm:w-auto"
+            className="mt-5 w-full sm:w-auto md:mt-6"
           >
             {t(locale, surveyIntro.start)}
           </Button>
         </div>
+
+        <Modal
+          open={consentDetailsOpen}
+          onClose={() => setConsentDetailsOpen(false)}
+          labelledBy="consent-details-title"
+        >
+          <h2 id="consent-details-title" className="text-xl md:text-2xl">
+            {t(locale, surveyIntro.consentDetails.title)}
+          </h2>
+          <div className="mt-4 space-y-4 text-sm leading-relaxed text-foreground-muted md:text-base">
+            {surveyIntro.consentDetails.body.map((paragraph) => (
+              <p key={paragraph.en}>{t(locale, paragraph)}</p>
+            ))}
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setConsentDetailsOpen(false)}
+            className="mt-6 w-full sm:w-auto"
+          >
+            {t(locale, surveyIntro.consentDetails.close)}
+          </Button>
+        </Modal>
       </div>
     );
   }
