@@ -375,9 +375,13 @@ export const surveySteps: SurveyStep[] = [
       },
       {
         id: "book_source",
-        type: "radio",
+        type: "checkbox",
         required: true,
         other: true,
+        help: {
+          id: "Boleh pilih lebih dari satu",
+          en: "Pick as many as you like",
+        },
         label: {
           id: "Kalau kamu ingin membaca, biasanya kamu mendapatkan buku atau bacaan dari mana?",
           en: "When you want to read, where do you usually get something to read?",

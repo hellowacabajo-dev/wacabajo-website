@@ -94,17 +94,26 @@ Anon key memang dirancang untuk publik — ia ikut terkirim ke browser di
 aplikasi Supabase mana pun. Yang menjaga datanya bukan kerahasiaan kunci,
 melainkan Row Level Security di database:
 
-| Operasi          | Lewat anon key    | Lewat dashboard tim |
-| ---------------- | ----------------- | ------------------- |
-| Menambah jawaban | boleh             | boleh               |
-| Membaca jawaban  | **ditolak**       | boleh               |
-| Mengubah jawaban | **ditolak**       | boleh               |
-| Menghapus        | **ditolak**       | boleh               |
+| Operasi          | Lewat anon key | Akun backoffice | Lewat dashboard tim |
+| ---------------- | -------------- | --------------- | ------------------- |
+| Menambah jawaban | boleh          | boleh           | boleh               |
+| Membaca jawaban  | **ditolak**    | boleh           | boleh               |
+| Mengubah jawaban | **ditolak**    | **ditolak**     | boleh               |
+| Menghapus        | **ditolak**    | **ditolak**     | boleh               |
 
 Di Postgres, tabel yang RLS-nya aktif menolak semua operasi yang tidak punya
 policy. `schema.sql` cuma memberi satu policy — INSERT — jadi tidak adanya
-policy SELECT itulah yang mengunci jawaban orang. Tim tetap bisa membaca
-semuanya lewat dashboard, karena koneksi itu memakai service role.
+policy SELECT itulah yang mengunci jawaban orang dari pengunjung situs.
+
+Kolom "akun backoffice" datang dari `supabase/backoffice.sql`: ia menambah satu
+policy SELECT yang hanya berlaku untuk akun yang terdaftar di tabel
+`backoffice_users`. Kuncinya tetap anon key yang sama — yang membedakan adalah
+token sesi yang ikut terkirim setelah login. Selama akunnya tidak terdaftar,
+hasilnya sama saja dengan pengunjung biasa: kosong. Lihat
+[`docs/BACKOFFICE.md`](BACKOFFICE.md).
+
+Tim juga tetap bisa membaca dan mengubah semuanya lewat dashboard, karena
+koneksi itu memakai service role.
 
 Yang masih terbuka: siapa pun yang tahu alamat halamannya bisa mengirim
 jawaban. Itu memang niatnya survei publik. Pertahanan yang ada sekarang cuma
@@ -116,8 +125,12 @@ mengubah kunci.
 
 ## 7. Membaca hasilnya
 
-**Table Editor** cukup untuk melihat-lihat dan mengekspor CSV
-(tombol **Export** di kanan atas).
+Cara paling nyaman: **`/backoffice/survei`** di situs sendiri — ada rekap per
+pertanyaan, jawaban per orang, dan unduhan CSV. Cara memasangnya ada di
+[`docs/BACKOFFICE.md`](BACKOFFICE.md).
+
+Di dashboard Supabase, **Table Editor** juga cukup untuk melihat-lihat dan
+mengekspor CSV mentah (tombol **Export** di kanan atas).
 
 Untuk rekap cepat, pakai **SQL Editor**. Beberapa query yang sering dipakai
 sudah ditulis di bagian bawah [`supabase/schema.sql`](../supabase/schema.sql),

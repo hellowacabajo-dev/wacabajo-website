@@ -4,7 +4,7 @@ Catatan operasional: di mana situs ini hidup, siapa yang memegang apa, dan
 apa yang masih menggantung. Panduan Supabase-nya terpisah di
 [`docs/SUPABASE.md`](SUPABASE.md).
 
-Terakhir diperbarui: **3 September 2026**.
+Terakhir diperbarui: **5 September 2026**.
 
 ---
 
@@ -85,6 +85,12 @@ Lalu checklist merge di [`docs/DESIGN.md`](DESIGN.md) §9.
       pindah sepenuhnya ke akun `abiyyuhanief3101`, Vercel GitHub App perlu
       dipasang di akun `hellowacabajo-dev` dan koneksi repo di project lama
       diputus lebih dulu.
+- [ ] **`supabase/backoffice.sql` belum dijalankan di project produksi.**
+      Selama belum, `/backoffice` tetap bisa dibuka tapi menampilkan pesan
+      "Data belum bisa dibaca", dan kunjungan tidak tercatat sama sekali.
+      Langkahnya di [`docs/BACKOFFICE.md`](BACKOFFICE.md) §1.
+- [ ] **Akun tim backoffice belum dibuat.** Perlu dibuat manual di
+      Authentication → Users, lalu didaftarkan di tabel `backoffice_users`.
 - [ ] **Pengiriman survei di produksi belum pernah diuji.** Sudah terbukti
       jalan di lokal (jawaban masuk ke Supabase, layar penutup muncul), tapi
       di domain asli belum — menunggu environment-nya terisi.

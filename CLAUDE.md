@@ -44,6 +44,10 @@ dihapus — style guide tidak tayang untuk publik.
   yang tersimpan di database — kalau dipisah per locale, satu opsi yang lupa
   diterjemahkan langsung merusak rekap dan tidak ketahuan TypeScript. Aturan
   "satu locale, satu bahasa" tetap berlaku untuk yang tampil di layar.
+- **Pengecualian kedua:** `/backoffice` berbahasa Indonesia saja dan tidak
+  berada di bawah `/[locale]`. Ia halaman internal tim, bukan halaman publik,
+  jadi aturan dwibahasa dan larangan istilah internal tidak berlaku di sana —
+  nama kolom database dan istilah teknis justru membantu di layar itu.
 
 ### UI/UX — berlaku untuk desktop dan mobile
 
@@ -96,10 +100,19 @@ Lalu jalankan checklist merge di `docs/DESIGN.md` §9.
 - Validasi survei (dipakai browser & server) → `src/lib/survey/validate.ts`
 - Pengiriman jawaban ke Supabase → `src/lib/survey/actions.ts`, `src/lib/supabase.ts`
 - Skema tabel + Row Level Security → `supabase/schema.sql`
+- Backoffice `/backoffice` (auth, data pengunjung, rekap survei):
+  skema & RLS → `supabase/backoffice.sql`, panduan → `docs/BACKOFFICE.md`,
+  sesi login → `src/lib/backoffice/auth.ts`, rekap → `src/lib/backoffice/`,
+  saringan rekap survei → `src/lib/backoffice/survey-filters.ts`.
+  **Rencana lanjutan yang sudah diputuskan (tabel silang, tabel jawaban penuh,
+  analisis jawaban terbuka, narasi temuan) ada di `docs/BACKOFFICE.md` §9** —
+  baca itu dulu sebelum merancang ulang.
+- Pencatat kunjungan → `src/components/analytics/PageViewTracker.tsx`
+  (klien) dan `src/app/api/track/route.ts` (klasifikasi + simpan)
 - Panduan menyambungkan Supabase → `docs/SUPABASE.md`
 - Peta deployment, environment produksi, dan yang masih menggantung →
   `docs/DEPLOY.md`. **Baca ini sebelum `git push`:** push ke `main` langsung
   tayang di www.wacabajo.org, tanpa tahap review.
-- Redirect `/` → `/id` → `src/proxy.ts`
+- Redirect `/` → `/id` **dan** penjagaan sesi `/backoffice` → `src/proxy.ts`
 - Konfigurasi situs & navigasi → `src/lib/site.ts`
 - Rujukan desain, brand, copy, dan standar UI/UX → `docs/DESIGN.md`

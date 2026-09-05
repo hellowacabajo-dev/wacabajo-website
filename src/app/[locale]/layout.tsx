@@ -4,6 +4,7 @@ import { Bricolage_Grotesque, Sorts_Mill_Goudy } from "next/font/google";
 import Script from "next/script";
 
 import "../globals.css";
+import { PageViewTracker } from "@/components/analytics/PageViewTracker";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import {
@@ -167,6 +168,9 @@ export default async function LocaleLayout({
           {children}
         </main>
         <SiteFooter locale={locale} />
+        {/* Pencatat kunjungan hanya dipasang di situs publik — halaman
+            backoffice punya layout sendiri dan tidak ikut terhitung. */}
+        <PageViewTracker locale={locale} />
       </body>
     </html>
   );

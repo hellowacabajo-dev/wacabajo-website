@@ -30,7 +30,7 @@ create table if not exists public.survey_responses (
 
   -- Akses bacaan
   access_ease smallint not null check (access_ease between 1 and 5),
-  book_source text not null,
+  book_source text[] not null default '{}',
   book_source_other text,
 
   -- Perubahan setelah gempa

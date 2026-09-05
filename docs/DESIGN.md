@@ -90,6 +90,25 @@ Gold berperan sebagai bidang warna dan aksen, bukan warna teks di latar terang.
 Komponen `Section` membatasi pilihan latar ke `tone` yang sudah aman, jadi
 kombinasi di luar tabel ini tidak akan muncul tanpa sengaja.
 
+#### Angka naik/turun di backoffice
+
+Backoffice punya satu pasangan yang tidak ada di situs publik: angka
+perbandingan periode yang perlu terbaca sebagai "naik" atau "turun". Warnanya
+berdiri langsung di atas permukaan kartu, bukan di dalam chip, jadi tiap tema
+butuh step yang berbeda:
+
+| Latar (kartu)      | Teks           | Rasio  | Dipakai untuk |
+| ------------------ | -------------- | ------ | ------------- |
+| Putih (tema terang) | Forest 800     | 9.1:1  | Angka naik    |
+| Putih (tema terang) | Persephone 800 | 8.6:1  | Angka turun   |
+| Darkest Forest 800 (tema gelap) | Forest 200     | 5.1:1  | Angka naik    |
+| Darkest Forest 800 (tema gelap) | Persephone 100 | 5.5:1  | Angka turun   |
+
+Token `--chip-*` tidak dipakai di sini. Token itu memang dirancang berpasangan
+dengan latarnya sendiri dan tidak didefinisikan ulang di tema gelap, jadi
+memakai warna teksnya saja di atas permukaan gelap menghasilkan hijau tua di
+atas hijau tua.
+
 ### Pasangan chip
 
 Chip, tag, dan badge ikon memakai pola berbeda: tint terang (step 50/100) dari
