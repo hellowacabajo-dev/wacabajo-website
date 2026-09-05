@@ -200,26 +200,6 @@ export default async function HomePage({ params }: PageParams) {
           title={join.title}
           description={join.description}
         />
-        <ol className="mt-12 grid gap-6 md:mt-16 md:grid-cols-3">
-          {join.items.map((step, index) => (
-            <li
-              key={step.title}
-              className="reveal rounded-xl border border-border bg-surface-raised p-7 shadow-soft"
-            >
-              <span
-                aria-hidden="true"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-pill bg-chip-gold-bg text-sm font-bold text-chip-gold-fg"
-              >
-                {index + 1}
-              </span>
-              <h3 className="mt-5 text-xl leading-snug">{step.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-foreground-muted md:text-base">
-                {step.body}
-              </p>
-            </li>
-          ))}
-        </ol>
-
         {/* Gambaran kegiatan yang baru disiapkan. Ditaruh di section ini,
             bukan jadi section sendiri, supaya terbaca sebagai jawaban atas
             "nanti aku ngapain?" — bukan sebagai jadwal yang sudah jalan. */}
@@ -227,18 +207,8 @@ export default async function HomePage({ params }: PageParams) {
           <h3 className="text-xl leading-snug md:text-2xl">
             {join.plans.title}
           </h3>
-          <ul className="mt-6 grid gap-4 sm:grid-cols-3">
-            {join.plans.items.map((item) => (
-              <li
-                key={item}
-                className="border-t border-border pt-4 text-sm leading-relaxed text-foreground-muted md:text-base"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-6 text-sm leading-relaxed text-foreground-subtle">
-            {join.plans.note}
+          <p className="mt-4 text-sm leading-relaxed text-foreground-muted md:text-base">
+            {join.plans.description}
           </p>
         </div>
       </Section>

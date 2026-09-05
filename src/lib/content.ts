@@ -81,22 +81,16 @@ interface ValuesContent {
   items: ValueItem[];
 }
 
-interface JoinStep {
-  title: string;
-  body: string;
-}
-
 interface JoinContent {
   eyebrow: string;
   title: string;
   description: string;
-  items: JoinStep[];
   /**
-   * Gambaran kegiatan yang baru disiapkan. `note` wajib ikut supaya tidak
-   * terbaca seperti jadwal yang sudah berjalan — alasan yang sama dengan
-   * dihapusnya section program.
+   * Gambaran kegiatan yang baru disiapkan. Sengaja tanpa daftar nama
+   * kegiatan — menyebut format spesifik (book sharing, mendongeng, dst.)
+   * terbaca seperti jadwal yang sudah diputuskan, padahal belum ada apa-apa.
    */
-  plans: { title: string; items: string[]; note: string };
+  plans: { title: string; description: string };
 }
 
 interface FinalCtaContent {
@@ -219,29 +213,11 @@ const id: HomeContent = {
     eyebrow: "Ikut terlibat",
     title: "Terbuka untuk siapa saja, apa pun latar belakangmu",
     description:
-      "Tidak ada syarat dan tidak perlu pengalaman. Cukup ceritakan siapa kamu dan apa yang ingin kamu lakukan bersama kami.",
-    items: [
-      {
-        title: "Ceritakan siapa kamu",
-        body: "Nama, kesibukan sehari-hari, dan hal yang kamu senangi. Beberapa kalimat sudah cukup.",
-      },
-      {
-        title: "Sebut yang ingin kamu lakukan",
-        body: "Membaca bareng anak-anak, memotret, menata buku, atau menemani saja. Belum tahu juga tidak apa-apa.",
-      },
-      {
-        title: "Kami hubungi kalau ada yang cocok",
-        body: "Ceritamu kami simpan. Saat ada kegiatan yang pas dengan waktumu, kami kabari.",
-      },
-    ],
+      "Ruang untuk ikut terlibat — jadi relawan atau bentuk lain — sedang kami siapkan. Tidak ada syarat dan tidak perlu pengalaman: nanti kamu cukup ceritakan siapa kamu dan apa yang ingin kamu lakukan, dan kami hubungi balik begitu ruang ini resmi dibuka.",
     plans: {
       title: "Kegiatan yang sedang kami siapkan",
-      items: [
-        "Book sharing — bertukar buku dan bacaan",
-        "Mendongeng dari desa ke desa",
-        "Baca buku bareng di ruang terbuka",
-      ],
-      note: "Belum ada yang berjalan. Bentuk dan jadwalnya kami susun bersama orang-orang yang ikut.",
+      description:
+        "Bentuk dan jadwalnya belum kami tentukan. Semuanya akan disusun bersama orang-orang yang lebih dulu ikut, sesuai minat dan waktu yang ada.",
     },
   },
 
@@ -348,29 +324,11 @@ const en: HomeContent = {
     eyebrow: "Get involved",
     title: "Open to anyone, whatever you bring with you",
     description:
-      "No requirements, no experience needed. Just tell us who you are and what you would like to do with us.",
-    items: [
-      {
-        title: "Tell us who you are",
-        body: "Your name, what your days look like, and what you enjoy. A few sentences is plenty.",
-      },
-      {
-        title: "Say what you would like to do",
-        body: "Read with kids, take photos, sort books, or simply keep us company. Not knowing yet is fine too.",
-      },
-      {
-        title: "We get in touch when something fits",
-        body: "We keep what you send us, and reach out when an activity matches the time you have.",
-      },
-    ],
+      "The space to get involved — as a volunteer or otherwise — is something we are still putting together. No requirements, no experience needed: once it is ready, just tell us who you are and what you would like to do, and we will get back to you as soon as this officially opens.",
     plans: {
       title: "What we are getting ready",
-      items: [
-        "Book sharing — swapping books and reading",
-        "Storytelling from village to village",
-        "Reading together out in the open",
-      ],
-      note: "None of it has started yet. What it looks like, and when, gets decided together with whoever joins.",
+      description:
+        "The shape and schedule are not decided yet. All of it will be worked out together with whoever joins first, based on the time and interests they bring.",
     },
   },
 

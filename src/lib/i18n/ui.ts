@@ -54,7 +54,7 @@ const id: UiCopy = {
   skipToContent: "Lompat ke konten",
   nav: {
     ariaLabel: "Navigasi utama",
-    volunteerCta: "Jadi relawan",
+    volunteerCta: "Ikut terlibat",
     openMenu: "Buka menu",
     closeMenu: "Tutup menu",
   },
@@ -98,7 +98,7 @@ const en: UiCopy = {
   skipToContent: "Skip to content",
   nav: {
     ariaLabel: "Main navigation",
-    volunteerCta: "Become a volunteer",
+    volunteerCta: "Get involved",
     openMenu: "Open menu",
     closeMenu: "Close menu",
   },
